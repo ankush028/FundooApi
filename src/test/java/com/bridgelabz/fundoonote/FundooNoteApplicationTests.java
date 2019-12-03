@@ -1,23 +1,21 @@
 package com.bridgelabz.fundoonote;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
-import com.bridgelabz.fundoonote.customexception.Exceptions;
-import com.bridgelabz.fundoonote.dto.RegisterDto;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.services.Serviceimpli;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 class FundooNoteApplicationTests {
 
@@ -53,6 +51,20 @@ class FundooNoteApplicationTests {
 		
 	}
 	
+<<<<<<< HEAD
+=======
+//	@Test 
+//	public void findByEmailTest() {
+//	when(services.findByEmail(email)).thenThrow(new Exceptions("UserNotFoundWxception"));
+//		Response res = services.findByEmail(email);
+//		System.out.println("RESPONSE :::::::::::::::::;"+res);
+//		assertEquals(500,res.getStatus());
+//	}
+	
+//	
+//	
+
+>>>>>>> update
 	
 }
 /*
