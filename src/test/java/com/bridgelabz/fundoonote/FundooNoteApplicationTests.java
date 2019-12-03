@@ -34,9 +34,6 @@ class FundooNoteApplicationTests {
 	@Mock
 	Environment environment;
 	
-//	@Mock
-//	RegisterDto reg;
-	
 	@Test
 	public void deleteByIdTest()
 	{
@@ -56,39 +53,6 @@ class FundooNoteApplicationTests {
 		
 	}
 	
-	@Test 
-	public void findByEmailTest() {
-	when(services.findByEmail(email)).thenThrow(new Exceptions("UserNotFoundWxception"));
-		Response res = services.findByEmail(email);
-		System.out.println("RESPONSE :::::::::::::::::;"+res);
-		assertEquals(500,res.getStatus());
-	}
-	
-	
-	
-	@Test
-	public void registerDtoTest() {
-	
-	//	Response res =null;
-		RegisterDto reg = new RegisterDto();
-		reg.setName("Ankush");
-		reg.setEmail("akag0284@gmail.com");
-		reg.setPassword("abcde");
-		reg.setConfirmPassword("abcde");
-	//	Response response = services.addUser(reg);
-		System.out.println("hmm. i came");
-//		
-//		System.out.println("MayBe i Came");
-//		System.out.println(u.getName());
-//		assertEquals("Ankush",u.getName());
-		
-	//	User user = Model.getModel().map(reg,User.class);
-	//	when(services.addUser(reg)).thenReturn(res);
-		
-	//	System.out.println(res);
-
-		
-	}
 	
 }
 /*
