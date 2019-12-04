@@ -47,13 +47,25 @@ public interface NoteServices {
 	 */
 	public List<Note> sortByTitle();
 	/**
-	 * @return
+	 * @return all sorted by title
 	 */
 	public List<Note> sortByCreatedDate();
 	/**
 	 * @param id
 	 * @param token
 	 * @return a response Message
+	 */
+	
+	/**
+	 * @return
+	 */
+	public List<Note> showAll();
+	
+	
+	/**
+	 * @param id
+	 * @param token
+	 * @return Sucess message
 	 */
 	public ResponseEntity<Object> isPinned(String id,String token);
 	/**
@@ -124,7 +136,7 @@ public interface NoteServices {
 	 */
 	public Note isNote(String token,String id);
 	
-	public List<Note> showAll();
+
 	
 	
 }

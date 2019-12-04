@@ -65,11 +65,16 @@ public class Serviceimpli implements Services{
 	
 //	@Autowired
 //	RabbitTemplate rabbitTemplate;
-		
+	
 	
 	/**
-	 *To Add A New User with A Unique EmailId
+	 * Logger
 	 */
+//	@Autowired	
+//	private static final java.util.logging.Logger logger =java.util.logging.Logger.getLogger(FundooNoteApplication.class.getName());
+	/**
+	 *To Add A New User with A Unique EmailId
+	 */	
 	@Override
 	public Response addUser(RegisterDto regdto) {
       //To Map The ModelClass
@@ -82,11 +87,12 @@ public class Serviceimpli implements Services{
 			if(isEmailPresent==null) { //email validation exist or not
 				user.setPassword(encodePassword.encoder().encode((regdto.getPassword())));//set encrypted password to the data bases
 				//save the user details in data base
+//				logger.info(environment.getProperty("Add"));
 				userRepo.save(user);
 				//token generated
 				String generatedToken=usertoken.createToken(user.getEmail());
 				//token send to the users mail
-				RabbitMq model = new RabbitMq(
+			RabbitMq model = new RabbitMq(
 						regdto.getEmail(),environment.getProperty("subject"), environment.getProperty("url")+generatedToken);
 				
 			//	rabbitTemplate.convertAndSend(model);

@@ -40,7 +40,7 @@ public class NoteController {
 		return service.showAll();
 	}
 	@GetMapping("/getAllNoteByEmail")
-	public List<Note> getAllNote(@RequestParam String email){
+	public List<Note> getAllNoteOfUser(@RequestParam String email){
 		return service.getAllNote(email);
 	}
 	@PutMapping("/updateNote")
@@ -92,6 +92,7 @@ public class NoteController {
 	public Response updatereminder(@RequestParam String token,@RequestParam String noteId,@RequestParam String date) {
 		return service.updateReminder(token, noteId, date);
 	}
+
 }
 
 

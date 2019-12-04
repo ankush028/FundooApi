@@ -11,4 +11,5 @@ import com.bridgelabz.fundoonote.label.model.Label;
 //@purpose repository of label
 public interface LabelRepository extends MongoRepository<Label, String>{ 
  public List<Label> findByEmail(String email);
+ public List<Label> findAll();
 }

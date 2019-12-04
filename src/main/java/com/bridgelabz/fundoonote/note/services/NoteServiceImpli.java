@@ -84,7 +84,7 @@ public class NoteServiceImpli implements NoteServices{
 		
 		Note note = isNote(token,id);
 		noteRepo.delete(note);
-		 return new ResponseEntity<>(environment.getProperty("Delete_NOTE"),HttpStatus.BAD_REQUEST);
+		 return new ResponseEntity<>(environment.getProperty("Delete_NOTE"),HttpStatus.MOVED_PERMANENTLY);
 		
 	}
 	/**
@@ -221,8 +221,6 @@ public class NoteServiceImpli implements NoteServices{
 		labelRepo.save(label);
 		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
 	}
-
-
 
 	@Override
 	public Response addReminder(String token, String noteId, String date) throws ParseException{
