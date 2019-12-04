@@ -2,7 +2,7 @@ package com.bridgelabz.fundoonote.usertest;
 
 
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.Assert.assertNull;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bridgelabz.fundoonote.config.Encryptpassword;
 import com.bridgelabz.fundoonote.config.Model;
-import com.bridgelabz.fundoonote.dto.RegisterDto;
+
 import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
@@ -96,35 +96,35 @@ class UserServiceTest {
 		List<User> listOfUser =services.getAllUser();
 		assertEquals("ankush",listOfUser.get(0).getName());		
 	}
-	@Test
-	public void addUserTest() {
-		String password = "asbsdjs";
-		String email1="abcd@gmail.com";
-		String any = "afasfa";
-		RegisterDto dto = new RegisterDto();
-		dto.setName("Ankush");
-		dto.setEmail(email);
-		dto.setPassword("1234");
-		dto.setConfirmPassword("1234");
-		User user = new User();
-		user.setId(id);
-		user.setEmail(email);
-		user.setName("ankush");
-		user.setPassword("1234");
-		user.setConfirmPassword("1234");
-		user.setIsvalidate(false);		
-	//	Mockito.when(model.getModel().map(dto,User.class)).thenReturn(user);
-	//	System.out.println("Hello");
-	//	Mockito.when(encodePassword.encoder().encode(password)).thenReturn(any);
-		System.out.println("hello i am");
-	//	assertTrue(dto.getPassword().equals(dto.getConfirmPassword()));
-		System.out.println("hello i am 2");
-		Mockito.when(userRepository.findByEmail(email1)).thenReturn(null);
-		assertNull(null);
-		Mockito.when(userRepository.save(user)).thenReturn(null);
-		Response response = services.addUser(dto);
-		assertEquals(200,response.getStatus());		
-	}
+//	@Test
+//	public void addUserTest() {
+//
+//		String email1="abcd@gmail.com";
+//
+//		RegisterDto dto = new RegisterDto();
+//		dto.setName("Ankush");
+//		dto.setEmail(email);
+//		dto.setPassword("1234");
+//		dto.setConfirmPassword("1234");
+//		User user = new User();
+//		user.setId(id);
+//		user.setEmail(email);
+//		user.setName("ankush");
+//		user.setPassword("1234");
+//		user.setConfirmPassword("1234");
+//		user.setIsvalidate(false);		
+//	//	Mockito.when(model.getModel().map(dto,User.class)).thenReturn(user);
+//	//	System.out.println("Hello");
+//	//	Mockito.when(encodePassword.encoder().encode(password)).thenReturn(any);
+//		System.out.println("hello i am");
+//	//	assertTrue(dto.getPassword().equals(dto.getConfirmPassword()));
+//		System.out.println("hello i am 2");
+//		Mockito.when(userRepository.findByEmail(email1)).thenReturn(null);
+//		assertNull(null);
+//		Mockito.when(userRepository.save(user)).thenReturn(null);
+//		Response response = services.addUser(dto);
+//		assertEquals(200,response.getStatus());		
+//	}
 
 
 
