@@ -12,6 +12,7 @@
 	<artifactId>FundooNote</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>FundooNote</name>
+	<packaging>war</packaging>
 	<description>Userlogin and Registration fundoo note</description>
 
 	<properties>
