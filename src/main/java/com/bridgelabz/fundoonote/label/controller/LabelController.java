@@ -51,7 +51,7 @@ public class LabelController {
 	 * @return A response message operation has performed or not
 	 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<Object> delete(@RequestParam String id,@RequestParam String token) {
+	public Response delete(@RequestParam String id,@RequestParam String token) {
 		return service.deleteLabel(token, id);
 	}
 	/**
@@ -62,7 +62,7 @@ public class LabelController {
 	 * @return  A response message operation has performed or not
 	 */
 	@PutMapping("/update")
-	public ResponseEntity<Object> update(@RequestParam String id,@RequestParam String token,@RequestBody LabelDto labeldto) {
+	public Response update(@RequestParam String id,@RequestParam String token,@RequestBody LabelDto labeldto) {
 		return service.updateLabel(token, id, labeldto);
 	}
 	/**
@@ -85,7 +85,7 @@ public class LabelController {
 	 * @param lblid
 	 * @return A response message operation has performed or not
 	 */
-	public ResponseEntity<Object> addNote(@RequestParam String email,@RequestParam String noteid,@RequestParam String lblid){
+	public Response addNote(@RequestParam String email,@RequestParam String noteid,@RequestParam String lblid){
 		return service.addNote(email, noteid, lblid);
 	}
 	

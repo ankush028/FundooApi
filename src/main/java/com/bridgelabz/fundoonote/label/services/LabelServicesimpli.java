@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonote.config.Model;
 import com.bridgelabz.fundoonote.customexception.Exceptions;
@@ -57,22 +56,16 @@ public class LabelServicesimpli implements LabelServices{
 	 */
 	@Override
 	public Response addLabel(LabelDto labeldto, String token) {
-		//find email id from token
+
 		String email = jwtToken.getUserToken(token);
-		//find user from email
 		User user = userRepo.findByEmail(email);
-		//check Condition if user has not found
  		if(user==null) {
 			throw new Exceptions("UserNotFoundException");
 		}
-		//map the labeldto class to label model
 		Label label =Model.getModel().map(labeldto,Label.class);
-		//Set the created date
 		label.setCreatedDate(LocalDate.now());
 		label.setEmail(email);
-		//save is database
 		labelRepo.save(label);
-		//return response
 		return new Response(200,environment.getProperty("Addedlabel"),HttpStatus.OK);
 	}
 
@@ -80,44 +73,38 @@ public class LabelServicesimpli implements LabelServices{
 	 *METHOD FOR DELETE LABEL	
 	 */
 	@Override
-	public ResponseEntity<Object> deleteLabel(String token, String id) {
-		//convert token to email
+	public Response deleteLabel(String token, String id) {
+
 		String email = jwtToken.getUserToken(token);
-		//find list of label present in this email
+
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
-		//find a label from label id
+
 		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().orElse(null);
-		if(label==null) {		//condition check is it present or not
-			throw new Exceptions("LabelNotFoundExceptions");
-		}
-		//delete label
+//		if(label==null) {		//condition check is it present or not
+//			throw new Exceptions("LabelNotFoundExceptions");
+//		}
+
 		labelRepo.delete(label);
-		//return reaponse
-		return new ResponseEntity<>(environment.getProperty("delete_label"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("delete_label"),HttpStatus.OK);
 	}
 
 	/**
 	 *UPDATE THE EXISTING LABEL
 	 */
 	@Override
-	public ResponseEntity<Object> updateLabel(String token,String id,LabelDto labeldto) {
-		//convert token to the email
+	public Response updateLabel(String token,String id,LabelDto labeldto) {
 		String email = jwtToken.getUserToken(token);
-		//find list of label present in this email
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
-		//find a single one using the label id
 		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().orElse(null);
-		if(label==null) { //check condition is it found or not
+		if(label==null) { 
 		throw new Exceptions("LabelNotFoundExceptions");
 		}
-		//set updated date
-		label.setUpdatedDate(LocalDate.now());
-		//set a new Title
-		label.setLabeltitle(labeldto.getLabeltitle());
-		//And Save updated label
+
+		label.setUpdatedDate(LocalDate.now());		
+		label.setLabeltitle(labeldto.getLabeltitle());	
 		labelRepo.save(label);
-		//return response
-		return new ResponseEntity<>(environment.getProperty("update_label"),HttpStatus.OK);
+		
+		return new Response(200,environment.getProperty("update_label"),HttpStatus.OK);
 	}
 
 	/**
@@ -125,7 +112,7 @@ public class LabelServicesimpli implements LabelServices{
 	 */
 	@Override
 	public List<Label> getAlllabel() {
-		//return all the labels present in the database
+
 		return labelRepo.findAll();
 	}
 
@@ -134,10 +121,10 @@ public class LabelServicesimpli implements LabelServices{
 	 */
 	@Override
 	public List<Label> sortedByTitle() {
-		//use stream to sort the labels using title
+
 		List<Label> sorted = labelRepo.findAll().stream()
 				.sorted(Comparator.comparing(Label::getLabeltitle)).collect(Collectors.toList());
-		//and return the list
+
 		return sorted;
 	}
 
@@ -153,25 +140,21 @@ public class LabelServicesimpli implements LabelServices{
 	/**
 	 *METHOD TO ADD A NOTE IN A LABEL
 	 */
-	public ResponseEntity<Object> addNote(String email ,String noteid,String lblid) {
-		//find all the note present in the email
+	public Response addNote(String email ,String noteid,String lblid) {
+
 		List<Note> listOfNote = noteRepo.findByEmail(email);
-		//getr all the labels present in the email
 		List<Label> listOfLabel = labelRepo.findByEmail(email);
-		//find one using note id
 		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().orElse(null);
-		//find one using label id
 		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().orElse(null);
-		if(note==null && label==null) {  //check condition 
-			//add the label in note and addnote in the label 
+		if(note==null && label==null) { 
 			throw new Exceptions("EitherNoteOrUserNotFoundException");
 		}
 		note.getListOfLabel().add(label);
 		label.getListOfNote().add(note);
 		noteRepo.save(note);
 		labelRepo.save(label);
-		//return response
-		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
+		
+		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 
 

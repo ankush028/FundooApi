@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonote.config.Model;
 import com.bridgelabz.fundoonote.customexception.Exceptions;
@@ -60,7 +59,7 @@ public class NoteServiceImpli implements NoteServices{
 	@Autowired
 	LabelRepository labelRepo;
 	@Override
-	public ResponseEntity<Object> addNote(NoteDto notedto, String token) {
+	public Response addNote(NoteDto notedto, String token) {
 		String email= noteJwt.getUserToken(token);
 		User user = userRepo.findByEmail(email);
 		if(user==null) {
@@ -71,20 +70,20 @@ public class NoteServiceImpli implements NoteServices{
 			note.setEmail(email);
 			noteRepo.save(note);	
 			
-			return new ResponseEntity<>(environment.getProperty("ADD_NOTE"),HttpStatus.OK);
+			return new Response(200,"HEllo",HttpStatus.OK);
 		}
 
 	/**@purpose delete the note from the user
 	 *@param notedto
-	 *@param toekn
+	 *@param token
 	 *@return a simple Message
 	 */
 	@Override
-	public ResponseEntity<Object> deleteNote(String token, String id) {
+	public Response deleteNote(String token, String id) {
 		
 		Note note = isNote(token,id);
 		noteRepo.delete(note);
-		 return new ResponseEntity<>(environment.getProperty("Delete_NOTE"),HttpStatus.MOVED_PERMANENTLY);
+		 return new Response(200,environment.getProperty("Delete_NOTE"),HttpStatus.MOVED_PERMANENTLY);
 		
 	}
 	/**
@@ -94,14 +93,14 @@ public class NoteServiceImpli implements NoteServices{
 	 *@return a simple Message
 	 */
 	@Override
-	public ResponseEntity<Object> updateNote(String id,NoteDto notedto, String token) {
+	public Response updateNote(String id,NoteDto notedto, String token) {
 	
 		Note note = isNote(token,id);
 		note.setUpdatedDate(LocalDate.now());
 		note.setDescription(notedto.getDescription());
 		note.setTitle(notedto.getTitle());
 		noteRepo.save(note);
-		return new ResponseEntity<>(environment.getProperty("update"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("update"),HttpStatus.OK);
 	}
 	/**
 	 *To get all the the notes
@@ -145,28 +144,28 @@ public class NoteServiceImpli implements NoteServices{
 	 *
 	 */
 	@Override
-	public ResponseEntity<Object> isPinned(String id,String token) {
+	public Response isPinned(String id,String token) {
 		Note note = isNote(token,id);
 		note.setPinned(!note.isPinned());
-		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 		/**
 		 *
 		 */
 		@Override
-	public ResponseEntity<String> isTrashed(String id,String token) {
+	public Response isTrashed(String id,String token) {
 		Note note = isNote(token,id);
 		note.setTrashed(!note.isTrashed());
-		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 	/**
 	 *
 	 */
 	@Override
-	public ResponseEntity<Object> isArchieved(String id,String token) {
+	public Response isArchieved(String id,String token) {
 		Note note = isNote(token,id);
 		note.setTrashed(!note.isArchieved());
-		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 		
 	/**
@@ -177,7 +176,7 @@ public class NoteServiceImpli implements NoteServices{
 	 * 
 	 */
 
-	public ResponseEntity<Object> addCollobrate(String token,String noteId,String collabemail){
+	public Response addCollobrate(String token,String noteId,String collabemail){
 		
 		User user = userRepo.findByEmail(collabemail);
 		Note note = isNote(token,noteId);
@@ -186,28 +185,28 @@ public class NoteServiceImpli implements NoteServices{
 			throw new Exceptions("UserNotFoundExceptions");
 		}
 		if(status) {
-			return new ResponseEntity<>(environment.getProperty("already"),HttpStatus.OK);
+			return new Response(200,environment.getProperty("already"),HttpStatus.OK);
 		}
 		note.getListOfcollobarator().add(collabemail);
 		System.out.println("hello1");
 		noteRepo.save(note);
-		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 	
 	/**
 	 *REMOVE COLLOBRATOR
 	 */
-	public ResponseEntity<Object> removeCollobrate(String token ,String noteId,String rcollabemail){
+	public Response removeCollobrate(String token ,String noteId,String rcollabemail){
 		Note note = isNote(token,noteId);
 		note.getListOfcollobarator().remove(rcollabemail);
-		return new ResponseEntity<>(environment.getProperty("CHECK"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("CHECK"),HttpStatus.OK);
 		
 	}
 	
 	/**
 	 *METHOD FOR ADD LABEL 
 	 */
-	public ResponseEntity<Object> addLabel(String email ,String noteid,String lblid) {
+	public Response addLabel(String email ,String noteid,String lblid) {
 		List<Note> listOfNote = noteRepo.findByEmail(email);
 		List<Label> listOfLabel = labelRepo.findByEmail(email);	
 		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().orElse(null);
@@ -219,7 +218,7 @@ public class NoteServiceImpli implements NoteServices{
 		label.getListOfNote().add(note);
 		noteRepo.save(note);
 		labelRepo.save(label);
-		return new ResponseEntity<>(environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 
 	@Override
@@ -278,6 +277,7 @@ public class NoteServiceImpli implements NoteServices{
 		Note note = notes.stream().filter(i->i.getId().equals(id)).findAny().orElse(null);
 		if(note==null) {
 			throw new Exceptions("NoteNotFoundException");
+
 		}
 		return note;
 	}

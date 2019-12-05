@@ -27,12 +27,12 @@ public class NoteController {
 	private NoteServices service;
 	
 	@PostMapping("/addNote")
-	public ResponseEntity<Object> addNote(@RequestBody NoteDto notedto,@RequestParam String token) {
+	public Response addNote(@RequestBody NoteDto notedto,@RequestParam String token) {
 		
 		return service.addNote(notedto, token);
 	}
 	@DeleteMapping("/delete")
-	public ResponseEntity<Object> deleteNote(@RequestParam String token,@RequestParam String id) {
+	public Response deleteNote(@RequestParam String token,@RequestParam String id) {
 		return service.deleteNote(token, id);
 	}
 	@GetMapping("/showAllNote")
@@ -44,7 +44,7 @@ public class NoteController {
 		return service.getAllNote(email);
 	}
 	@PutMapping("/updateNote")
-	public ResponseEntity<Object> updateNote(@RequestParam String id,@RequestBody NoteDto notedto,@RequestParam String token) {
+	public Response updateNote(@RequestParam String id,@RequestBody NoteDto notedto,@RequestParam String token) {
 		System.out.println(token);
 		return service.updateNote(id,notedto, token);
 	}	
@@ -57,27 +57,27 @@ public class NoteController {
 		return service.sortByCreatedDate();
 	}
 	@PostMapping("/pin")
-	public ResponseEntity<Object> isPin(@RequestParam String id,@RequestParam String token) {
+	public Response isPin(@RequestParam String id,@RequestParam String token) {
 		return service.isPinned(id, token);
 	}
 	@PostMapping("/archieve")
-	public ResponseEntity<Object> isArchieve(@RequestParam String id,@RequestParam String token) {
+	public Response isArchieve(@RequestParam String id,@RequestParam String token) {
 		return service.isPinned(id, token);
 	}
 	@PostMapping("/trash")
-	public ResponseEntity<String> isTrash(@RequestParam String id,@RequestParam String token) {
+	public Response isTrash(@RequestParam String id,@RequestParam String token) {
 		return service.isTrashed(id, token);
 	}
 	@PostMapping("/addlbl")
-	public ResponseEntity<Object> addLabel(@RequestParam String email,@RequestParam String noteid,@RequestParam String lblid) {
+	public Response addLabel(@RequestParam String email,@RequestParam String noteid,@RequestParam String lblid) {
 		return service.addLabel(email, noteid, lblid);
 	}
 	@PostMapping("/collobrate")
-	public ResponseEntity<Object> collobrate(@RequestParam String token, @RequestParam String noteid, @RequestParam String collabemail){
+	public Response collobrate(@RequestParam String token, @RequestParam String noteid, @RequestParam String collabemail){
 	return service.addCollobrate(token, noteid, collabemail);		
 	}
 	@PostMapping("/removecollobrate")
-	public ResponseEntity<Object> removecollobrate(@RequestParam String token, @RequestParam String noteid, @RequestParam String collabemail){
+	public Response removecollobrate(@RequestParam String token, @RequestParam String noteid, @RequestParam String collabemail){
 	return service.removeCollobrate(token, noteid, collabemail);		
 	}
 	@PostMapping("/addReminder")

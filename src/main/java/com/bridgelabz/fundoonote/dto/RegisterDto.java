@@ -22,7 +22,7 @@ public class RegisterDto {
 	@Pattern(regexp=".+@.+\\.[a-z]+")//email pasttern validation
 	private String email;
 	
-	@Size(min=3,max=10,message ="size will be in b/W 2 to 10")//password validation
+	@Size(min=3,max=10,message ="size will be in b/W 3 to 10")//password validation
 	private String password;
 	@Size(min=3,max=10)
 	private String confirmPassword;

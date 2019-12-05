@@ -20,20 +20,20 @@ public interface NoteServices {
 	 * @return a simple Message
 	 * @throws Custom
 	 */
-	public  ResponseEntity<Object>  addNote(NoteDto note,String token);
+	public  Response  addNote(NoteDto note,String token);
 	
 	/**
 	 * @param token
 	 * @param id
 	 * @return A message
 	 */
-	public ResponseEntity<Object> deleteNote(String token,String id);
+	public Response deleteNote(String token,String id);
 	/**
 	 * @param note
 	 * @param token
 	 * @return a message
 	 */
-	public ResponseEntity<Object> updateNote(String id,NoteDto note,String token);
+	public Response updateNote(String id,NoteDto note,String token);
 	/**@param notedto
 	 * @param token
 	 * @return message
@@ -67,19 +67,19 @@ public interface NoteServices {
 	 * @param token
 	 * @return Sucess message
 	 */
-	public ResponseEntity<Object> isPinned(String id,String token);
+	public Response isPinned(String id,String token);
 	/**
 	 * @param id
 	 * @param token
 	 * @return a response message
 	 */
-	public ResponseEntity<Object> isArchieved(String id,String token);
+	public Response isArchieved(String id,String token);
 	/**
 	 * @param id
 	 * @param token
 	 * @return a response message
 	 */
-	public ResponseEntity<String> isTrashed(String id,String token);
+	public Response isTrashed(String id,String token);
 	
 	/**
 	 * @param email
@@ -87,7 +87,7 @@ public interface NoteServices {
 	 * @param lblid
 	 * @return a response message
 	 */
-	public ResponseEntity<Object> addLabel(String email,String noteid,String lblid);
+	public Response addLabel(String email,String noteid,String lblid);
 
 	/**
 	 * @param token
@@ -95,7 +95,7 @@ public interface NoteServices {
 	 * @param collabemail
 	 * @return
 	 */
-	public ResponseEntity<Object> addCollobrate(String token,String noteid,String collabemail);
+	public Response addCollobrate(String token,String noteid,String collabemail);
 	
 	/**
 	 * @param token
@@ -103,7 +103,7 @@ public interface NoteServices {
 	 * @param rcollabemail
 	 * @return
 	 */
-	public ResponseEntity<Object> removeCollobrate(String token,String noteid,String rcollabemail);
+	public Response removeCollobrate(String token,String noteid,String rcollabemail);
 	
 	/**
 	 * @param token
