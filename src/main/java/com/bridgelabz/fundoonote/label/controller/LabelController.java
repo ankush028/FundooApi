@@ -5,7 +5,6 @@ package com.bridgelabz.fundoonote.label.controller;
  */
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,6 +84,7 @@ public class LabelController {
 	 * @param lblid
 	 * @return A response message operation has performed or not
 	 */
+	@PostMapping("/addNoteInLabel")
 	public Response addNote(@RequestParam String email,@RequestParam String noteid,@RequestParam String lblid){
 		return service.addNote(email, noteid, lblid);
 	}

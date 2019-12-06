@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.bridgelabz.fundoonote.note.model.Note;
 
 public interface NoteRepository extends MongoRepository<Note,String>{
-//public Note findByEmail(String email);
+
 	List<Note> findByEmail(String email);
 
 

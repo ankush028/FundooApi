@@ -62,16 +62,7 @@ public class Serviceimpli implements Services{
 	
 	@Autowired
 	Environment environment;
-	
-//	@Autowired
-//	RabbitTemplate rabbitTemplate;
-	
-	
-	/**
-	 * Logger
-	 */
-//	@Autowired	
-//	private static final java.util.logging.Logger logger =java.util.logging.Logger.getLogger(FundooNoteApplication.class.getName());
+
 	/**
 	 *To Add A New User with A Unique EmailId
 	 */	
@@ -149,7 +140,8 @@ public class Serviceimpli implements Services{
 		
 		User user = userRepo.findByEmail(logindto.getEmail());	
 		if(user==null) {
-			new Exceptions("UserNotFoundExceptions");
+
+			throw new IllegalArgumentException("User");
 		}
 			if(user.isIsvalidate()&& user.getEmail().equals(logindto.getEmail())&&	
 					encodePassword.encoder().matches(logindto.getPassword(),user.getPassword())) {				
@@ -197,7 +189,7 @@ public class Serviceimpli implements Services{
 			User user = Model.getModel().map(resetdto,User.class);
 			String email = usertoken.getUserToken(tokenn);
 			
-			User userForset = userRepo.findAll().stream().filter(i->i.getEmail().equals(email)).findAny().orElse(null);
+			User userForset = userRepo.findAll().stream().filter(i->i.getEmail().equals(email)).findAny().get();
 			if(user==null) {
 				throw new Exceptions("UserNotFoundExceptions");
 			}

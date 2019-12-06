@@ -58,6 +58,7 @@ public class NoteServiceImpli implements NoteServices{
 	
 	@Autowired
 	LabelRepository labelRepo;
+	
 	@Override
 	public Response addNote(NoteDto notedto, String token) {
 		String email= noteJwt.getUserToken(token);
@@ -124,10 +125,9 @@ public class NoteServiceImpli implements NoteServices{
 	 */
 	@Override
 	public List<Note> sortByTitle(){
-		List<Note> sorted = noteRepo.findAll().stream()
+
+		return noteRepo.findAll().stream()
 				.sorted(Comparator.comparing(Note::getTitle)).parallel().collect(Collectors.toList());
-	
-		return sorted;
 	}
 	/**
 	 *METHOD FOR SORT  THE NOTE BY CREATED DATE
@@ -135,10 +135,9 @@ public class NoteServiceImpli implements NoteServices{
 	@Override
 	public List<Note> sortByCreatedDate(){
 		
-		List<Note> sorted = noteRepo.findAll()
-			.stream().sorted(Comparator.comparing(Note::getCreatedDate)).parallel()
-				.collect(Collectors.toList());
-		return sorted;
+
+		return noteRepo.findAll().stream()
+				.sorted(Comparator.comparing(Note::getCreatedDate)).parallel().collect(Collectors.toList());
 	}
 	/**
 	 *
@@ -147,7 +146,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response isPinned(String id,String token) {
 		Note note = isNote(token,id);
 		note.setPinned(!note.isPinned());
-		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("pin"),HttpStatus.OK);
 	}
 		/**
 		 *
@@ -156,7 +155,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response isTrashed(String id,String token) {
 		Note note = isNote(token,id);
 		note.setTrashed(!note.isTrashed());
-		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("trash"),HttpStatus.OK);
 	}
 	/**
 	 *
@@ -165,7 +164,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response isArchieved(String id,String token) {
 		Note note = isNote(token,id);
 		note.setTrashed(!note.isArchieved());
-		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("archive"),HttpStatus.OK);
 	}
 		
 	/**
@@ -188,7 +187,6 @@ public class NoteServiceImpli implements NoteServices{
 			return new Response(200,environment.getProperty("already"),HttpStatus.OK);
 		}
 		note.getListOfcollobarator().add(collabemail);
-		System.out.println("hello1");
 		noteRepo.save(note);
 		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
@@ -209,15 +207,13 @@ public class NoteServiceImpli implements NoteServices{
 	public Response addLabel(String email ,String noteid,String lblid) {
 		List<Note> listOfNote = noteRepo.findByEmail(email);
 		List<Label> listOfLabel = labelRepo.findByEmail(email);	
-		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().orElse(null);
-		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().orElse(null);
-		if(note==null && label==null) {
-			throw new Exceptions("NoteOrLabelNotFoundExceptions");
+		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().get();
+		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().get();
+		if(label==null && note==null) {
+			throw new Exceptions("NoteOrLabelNoteFoundExceptions");
 		}
 		note.getListOfLabel().add(label);
-		label.getListOfNote().add(note);
 		noteRepo.save(note);
-		labelRepo.save(label);
 		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
 
@@ -225,7 +221,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response addReminder(String token, String noteId, String date) throws ParseException{
 		Note note = isNote(token,noteId);
 
-		note.setReminder(Utility.dateFormat(date));
+		note.setReminder(new Utility(date).dateFormat());
 		noteRepo.save(note);
 		
 		return new Response(200,environment.getProperty("ReminderAdded"),HttpStatus.OK);
@@ -238,9 +234,9 @@ public class NoteServiceImpli implements NoteServices{
 
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes= noteRepo.findByEmail(email);
-		Note note = notes.stream().filter(i->i.getId().equals(noteId)).findAny().orElse(null);
+		Note note = notes.stream().filter(i->i.getId().equals(noteId)).findAny().get();
 		if(note==null) {
-			throw new Exceptions("NoteNotFoundException");
+			throw new IllegalArgumentException("Note");
 		}
 		note.setReminder(null);
 		noteRepo.save(note);
@@ -250,19 +246,14 @@ public class NoteServiceImpli implements NoteServices{
 
 
 	@Override
-	public Response updateReminder(String token, String noteId, String date) {
+	public Response updateReminder(String token, String noteId, String date) throws ParseException {
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes= noteRepo.findByEmail(email);
 		Note note = notes.stream().filter(i->i.getId().equals(noteId)).findAny().orElse(null);
 		if(note==null) {
 			throw new Exceptions("NoteNotFoundException");
 		}
-		try {
-			note.setReminder(Utility.dateFormat(date));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			note.setReminder(new Utility(date).dateFormat());
 		noteRepo.save(note);
 		
 		return new Response(200,environment.getProperty("ReminderUpdate"),HttpStatus.OK);

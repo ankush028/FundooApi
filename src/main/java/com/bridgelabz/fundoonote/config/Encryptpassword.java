@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class Encryptpassword {
-	//for encrypt and decrpt the password
+	//for encrypt and decrypt the password
 	@Bean
 	public PasswordEncoder encoder() {
 	//it will return an object of BCryptPasswordEncoder

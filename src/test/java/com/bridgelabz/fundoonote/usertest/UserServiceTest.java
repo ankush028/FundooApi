@@ -14,7 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.bridgelabz.fundoonote.config.Encryptpassword;
-import com.bridgelabz.fundoonote.dto.RegisterDto;
 import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
@@ -98,19 +97,7 @@ class UserServiceTest {
 		List<User> listOfUser =services.getAllUser();
 		assertEquals("ankush",listOfUser.get(0).getName());		
 	}
-
-	@Test
-	public void addUserTest() {
-
-
-		RegisterDto dto = new RegisterDto();
-		dto.setName("Ankush");
-		dto.setEmail("akag0284@gmail.com");
-		dto.setPassword("1234");
-		dto.setConfirmPassword("1234");
 	
-	}
-
 
 
 }

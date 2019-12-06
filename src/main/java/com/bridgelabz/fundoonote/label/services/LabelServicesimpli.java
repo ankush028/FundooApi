@@ -79,11 +79,10 @@ public class LabelServicesimpli implements LabelServices{
 
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
 
-		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().orElse(null);
-//		if(label==null) {		//condition check is it present or not
-//			throw new Exceptions("LabelNotFoundExceptions");
-//		}
-
+		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().get();
+		if(label==null) {	
+		throw new Exceptions("LabelNotFoundExceptions");
+	}
 		labelRepo.delete(label);
 		return new Response(200,environment.getProperty("delete_label"),HttpStatus.OK);
 	}
@@ -95,7 +94,7 @@ public class LabelServicesimpli implements LabelServices{
 	public Response updateLabel(String token,String id,LabelDto labeldto) {
 		String email = jwtToken.getUserToken(token);
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
-		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().orElse(null);
+		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().get();
 		if(label==null) { 
 		throw new Exceptions("LabelNotFoundExceptions");
 		}
@@ -122,10 +121,8 @@ public class LabelServicesimpli implements LabelServices{
 	@Override
 	public List<Label> sortedByTitle() {
 
-		List<Label> sorted = labelRepo.findAll().stream()
+		return labelRepo.findAll().stream()
 				.sorted(Comparator.comparing(Label::getLabeltitle)).collect(Collectors.toList());
-
-		return sorted;
 	}
 
 	/**
@@ -133,25 +130,24 @@ public class LabelServicesimpli implements LabelServices{
 	 */
 	@Override
 	public List<Label> sortedByDate() {
-		List<Label> sorted = labelRepo.findAll().stream()
+
+		return labelRepo.findAll().stream()
 				.sorted(Comparator.comparing(Label::getCreatedDate)).collect(Collectors.toList());
-		return sorted;	
 	}
 	/**
 	 *METHOD TO ADD A NOTE IN A LABEL
 	 */
+	@Override
 	public Response addNote(String email ,String noteid,String lblid) {
 
 		List<Note> listOfNote = noteRepo.findByEmail(email);
 		List<Label> listOfLabel = labelRepo.findByEmail(email);
-		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().orElse(null);
-		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().orElse(null);
+		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().get();
+		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().get();
 		if(note==null && label==null) { 
 			throw new Exceptions("EitherNoteOrUserNotFoundException");
 		}
-		note.getListOfLabel().add(label);
 		label.getListOfNote().add(note);
-		noteRepo.save(note);
 		labelRepo.save(label);
 		
 		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);

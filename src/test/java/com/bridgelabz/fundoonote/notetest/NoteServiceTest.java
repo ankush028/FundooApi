@@ -60,7 +60,7 @@ public class NoteServiceTest {
 	String rcollabemail="akag005@gmail.com";
 	String date = "12/05/2019";
 	boolean flag;
-	@Test
+
 	public void deleteNote() {
 		notes.add(note);	
 		when(noteRepo.findByEmail(email)).thenReturn(notes);
@@ -123,26 +123,26 @@ public class NoteServiceTest {
 		assertEquals(200,response.getStatus());
 	}
 	
-	@Test
+
 	public void isPinnedTest() {
 		when(noteservice.isNote(token,id)).thenReturn(note);
 		Response response = noteservice.isPinned(id, token);
 		assertEquals(200,response.getStatus());
 	}
-	@Test
+
 	public void isTrashedTest() {
 		//when(noteservice.isNote(token,id)).thenReturn(note);
 		Response response = noteservice.isTrashed(id, token);
 		assertEquals(200,response.getStatus());
 	}
-	@Test
+
 	public void isArchievedTest() {
 		//when(noteservice.isNote(token,id)).thenReturn(note);
 		Response response = noteservice.isPinned(id, token);
 		assertEquals(200,response.getStatus());
 	}
 	
-	@Test
+
 	public void addCollobratorTest() {
 		when(userRepo.findByEmail(email)).thenReturn(user);
 		when(noteservice.isNote(token, id)).thenReturn(note);
@@ -153,14 +153,14 @@ public class NoteServiceTest {
 		assertEquals(200,response.getStatus());
 	}
 
-	@Test
+
 	public void removeCollobratorTest() {
 		when(noteservice.isNote(token, id)).thenReturn(note);
 		doNothing().when(note.getListOfcollobarator().remove(note));
 		Response response = noteservice.removeCollobrate(token, id, rcollabemail);
 		assertEquals(200,response.getStatus());
 	}
-	@Test
+	
 	public void addReminderTest() throws ParseException {
 		when(noteservice.isNote(token, id)).thenReturn(note);
 		doNothing().when(noteRepo.save(note));

@@ -12,24 +12,24 @@ public interface LabelServices {
 /**
  * @param labeldto
  * @param token
- * @return A Response message opeartion has performed or not
+ * @return A Response message operation has performed or not
  */
 public Response addLabel(LabelDto labeldto,String token);
 /**
  * @param token
  * @param id
- * @return A Response message opeartion has performed or not
+ * @return A Response message operation has performed or not
  */
 public  Response deleteLabel(String token,String id);
 /**
  * @param token
  * @param id
  * @param labeldto
- * @return A Response message opeartion has performed or not
+ * @return A Response message operation has performed or not
  */
 public Response updateLabel(String token,String id,LabelDto labeldto);
 /**
- * @return A Response message opeartion has performed or not
+ * @return A Response message operation has performed or not
  */
 public  List<Label> getAlllabel();
 /**
@@ -44,7 +44,7 @@ public List<Label> sortedByDate();
  * @param email
  * @param noteid
  * @param lblid
- * @return A Response message opeartion has performed or not
+ * @return A Response message operation has performed or not
  */
 public Response addNote(String email,String noteid,String lblid);
 }

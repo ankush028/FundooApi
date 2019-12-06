@@ -5,11 +5,10 @@ package com.bridgelabz.fundoonote.label.model;
  */
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-
 import com.bridgelabz.fundoonote.note.model.Note;
-
 import lombok.Data;
 //Model Class of label 
 //in this class all field of label
@@ -30,6 +29,6 @@ public class Label {
 	
 	//@purpose DBref is to refer the data without transfering data 
  	@DBRef(lazy=true)
-	ArrayList<Note> listOfNote = new ArrayList<Note>();
+	List<Note> listOfNote = new ArrayList<>();
 
 }

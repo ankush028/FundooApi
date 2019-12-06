@@ -6,7 +6,6 @@ import java.text.ParseException;
  */
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +44,6 @@ public class NoteController {
 	}
 	@PutMapping("/updateNote")
 	public Response updateNote(@RequestParam String id,@RequestBody NoteDto notedto,@RequestParam String token) {
-		System.out.println(token);
 		return service.updateNote(id,notedto, token);
 	}	
 	@GetMapping("/sortedbyTitle")
@@ -89,7 +87,7 @@ public class NoteController {
 		return service.removeReminder(token, noteId);
 	}
 	@PostMapping("/updateReminder")
-	public Response updatereminder(@RequestParam String token,@RequestParam String noteId,@RequestParam String date) {
+	public Response updatereminder(@RequestParam String token,@RequestParam String noteId,@RequestParam String date) throws ParseException {
 		return service.updateReminder(token, noteId, date);
 	}
 

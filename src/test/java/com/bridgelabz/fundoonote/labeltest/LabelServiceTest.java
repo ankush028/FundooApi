@@ -1,5 +1,5 @@
 package com.bridgelabz.fundoonote.labeltest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.utility.Jwt;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LabelServiceTest {
@@ -51,6 +52,7 @@ public class LabelServiceTest {
 	User user = new User();
 	Label label = new Label();
 	List<Label> list = new ArrayList<>();
+	Label lab=null; 
 	@Test
 	public void getAllLabel()
 	{
@@ -89,15 +91,17 @@ public class LabelServiceTest {
 		Response res = labelservice.addLabel(lbldto, token);
 		assertEquals(200,res.getStatus());		
 	}
-	@Test
+
+
 	public void removeLabelTest() {
 
 		when(jwt.getUserToken(token)).thenReturn(email);
 		when(labelRepo.findByEmail(email)).thenReturn(list);
 		doNothing().when(labelRepo).delete(label);
+	//	when(list.stream().filter(i->i.getLabelid().equals(id)).findAny().get()).thenReturn(lab);
 		Response response = labelservice.deleteLabel(token, id);
-		assertEquals(200,response.getStatus());
+		assertEquals(200,response.getStatus());		
 		
 	}
-	
+
 }

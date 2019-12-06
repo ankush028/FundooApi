@@ -24,7 +24,8 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo metaInfo() {
-		ApiInfo api = new ApiInfo(
+		
+		return new ApiInfo(
 				"Bridgelabz Fundoo Note Api",
 				"ANKUSH AGRAWAL",
 				"1.0",
@@ -32,8 +33,6 @@ public class SwaggerConfig {
 				new Contact("ANKUSH AGRAWAL","https://www.bridgelabz.com/","akag0284@gmail.com"),
 				"Apache License version 2.0",
 				"https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html");
-		
-		return api;
 	}
 }
 	

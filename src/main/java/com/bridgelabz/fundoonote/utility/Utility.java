@@ -5,11 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utility {
-	public static Date dateFormat(String date) throws ParseException {
+	private  String date;
 	
-	SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY");
-	Date date1= sdf.parse(date);
-		return date1;
+	public Utility(String date) {
+		this.date=date;
 	}
-	
+		
+	public  Date dateFormat() throws ParseException {
+		
+		return new SimpleDateFormat("dd/mm/yyyy").parse(date);
+	}
 }

@@ -36,7 +36,7 @@ public class Jms {
 	public void sendMail(RabbitMq rabbitModel) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		
-	//	msg.setFrom(rabbitModel.getFrom());
+
 		msg.setTo(rabbitModel.getTo());
 		msg.setSubject(rabbitModel.getSubject());
 		msg.setText(rabbitModel.getMessage());

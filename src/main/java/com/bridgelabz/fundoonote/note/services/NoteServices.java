@@ -5,9 +5,6 @@ import java.text.ParseException;
  *@Date 20 Nov 2019
  */
 import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-
 import com.bridgelabz.fundoonote.note.dto.NoteDto;
 import com.bridgelabz.fundoonote.note.model.Note;
 import com.bridgelabz.fundoonote.response.Response;
@@ -126,8 +123,9 @@ public interface NoteServices {
 	 * @param noteId
 	 * @param date
 	 * @return
+	 * @throws ParseException 
 	 */
-	public Response updateReminder(String token,String noteId,String date);
+	public Response updateReminder(String token,String noteId,String date) throws ParseException;
 	
 	/**
 	 * @param token
