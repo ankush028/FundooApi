@@ -35,7 +35,11 @@
 			<scope>test</scope>
 	</dependency>
 
-
+			<dependency>
+			  <groupId>junit</groupId>     <!-- NOT org.junit here -->
+			  <artifactId>junit-dep</artifactId>
+			  <version>4.8.2</version>
+		</dependency>
 			<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 		<dependency>
 		    <groupId>org.mockito</groupId>
