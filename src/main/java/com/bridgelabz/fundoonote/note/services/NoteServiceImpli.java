@@ -71,7 +71,7 @@ public class NoteServiceImpli implements NoteServices{
 			note.setEmail(email);
 			noteRepo.save(note);	
 			
-			return new Response(200,"HEllo",HttpStatus.OK);
+			return new Response(200,environment.getProperty("ADD_NOTE"),HttpStatus.OK);
 		}
 
 	/**@purpose delete the note from the user
@@ -268,7 +268,6 @@ public class NoteServiceImpli implements NoteServices{
 		Note note = notes.stream().filter(i->i.getId().equals(id)).findAny().orElse(null);
 		if(note==null) {
 			throw new Exceptions("NoteNotFoundException");
-
 		}
 		return note;
 	}

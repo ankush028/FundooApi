@@ -11,6 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -63,6 +65,8 @@ public class Serviceimpli implements Services{
 	@Autowired
 	Environment environment;
 
+	static Logger logger =	Logger.getLogger(Serviceimpli.class.getName());
+	
 	/**
 	 *To Add A New User with A Unique EmailId
 	 */	
@@ -76,18 +80,21 @@ public class Serviceimpli implements Services{
 			return new Response(200,environment.getProperty("password_MisMatch"),HttpStatus.OK);		
 		} 
 		if(isEmailPresent!=null) {
-				
+				logger.warning("User exist already");
 			return new Response(200,environment.getProperty("Email_Exist"),HttpStatus.OK);
 		}
 			
 			String encodedPassword = encodePassword.encoder().encode((regdto.getPassword()));
 			user.setPassword(encodedPassword);//set encrypted password to the data bases
-			userRepo.save(user);			
+			userRepo.save(user);
+			logger.info( environment.getProperty("Add"));
+			
 			String generatedToken=usertoken.createToken(user.getEmail());			
 			RabbitMq model = new RabbitMq(
-			regdto.getEmail(),environment.getProperty("subject"), environment.getProperty("url")+generatedToken);				
-			jms.sendMail(model);					
-			return new Response(200,environment.getProperty("Add"),HttpStatus.OK);
+			regdto.getEmail(),environment.getProperty("url")+generatedToken,environment.getProperty("subject"));				
+			jms.sendMail(model);	
+			String message = environment.getProperty("Add");
+			return new Response(200,message,HttpStatus.OK);
 	}	
 
 	/**

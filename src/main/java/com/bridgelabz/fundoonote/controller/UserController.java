@@ -103,8 +103,8 @@ public class UserController {
 	 * @param token
 	 * @return message token is valid or not
 	 */
-	@PostMapping("/isvalid")
-	public Response isValid(@RequestParam String token) {
+	@PostMapping("/validation/{token}")
+	public Response isValid(@PathVariable String token) {
 		return service.isValidate(token);
 	}
 	/**@purpose to forgot password

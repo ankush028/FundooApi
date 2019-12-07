@@ -1,14 +1,12 @@
 package com.bridgelabz.fundoonote.notetest;
-import static org.mockito.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
-
+import static org.mockito.Matchers.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -18,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -49,6 +48,8 @@ public class NoteServiceTest {
 	@Mock
 	Jwt noteJwt;
 	
+	@Mock
+	Environment env;
 	
 	String token ="sdjkfbsdifwefisfjksdfiusgdfw";
 	String id="12345abcde";
@@ -60,7 +61,8 @@ public class NoteServiceTest {
 	String rcollabemail="akag005@gmail.com";
 	String date = "12/05/2019";
 	boolean flag;
-
+	//Response res = null;
+	String msg = "Adde";
 	public void deleteNote() {
 		notes.add(note);	
 		when(noteRepo.findByEmail(email)).thenReturn(notes);
@@ -110,14 +112,13 @@ public class NoteServiceTest {
 		NoteDto notedto = new NoteDto();
 		notedto.setDescription("hello");
 		notedto.setDescription("hi");
-	//	Exceptions e = new Exceptions("UserNotFoundException");
+
 		Mockito.when(noteJwt.getUserToken(token)).thenReturn(anyString());
 		when(userRepo.findByEmail(email)).thenReturn(user);
-
-	//	doThrow(e).when(user.equals(null));
 		when(mapper.map(notedto,Note.class)).thenReturn(note);
 		when(noteRepo.save(note)).thenReturn(note);
 		System.out.println("hello");
+		when(env.getProperty(msg)).thenReturn(msg);
 		Response response = noteservice.addNote(notedto, token);
 		System.out.println(response);
 		assertEquals(200,response.getStatus());
@@ -131,7 +132,7 @@ public class NoteServiceTest {
 	}
 
 	public void isTrashedTest() {
-		//when(noteservice.isNote(token,id)).thenReturn(note);
+		when(noteservice.isNote(token,id)).thenReturn(note);
 		Response response = noteservice.isTrashed(id, token);
 		assertEquals(200,response.getStatus());
 	}
