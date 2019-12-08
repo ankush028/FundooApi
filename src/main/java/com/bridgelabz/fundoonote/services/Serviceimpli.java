@@ -213,7 +213,7 @@ public class Serviceimpli implements Services{
 	 */
 	@Override
 	public Response forgot(String email) {
-		if(!userRepo.findAll().stream().anyMatch(i->i.getEmail().equals(email)))
+		if(userRepo.findAll().stream().noneMatch(i->i.getEmail().equals(email)))
 			{
 			return new Response(200,environment.getProperty("User_Not_Found"),HttpStatus.OK);
 		}

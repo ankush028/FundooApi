@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -212,14 +213,17 @@ public class NoteServiceImpli implements NoteServices{
 	public Response addLabel(String email ,String noteid,String lblid) {
 		List<Note> listOfNote = noteRepo.findByEmail(email);
 		List<Label> listOfLabel = labelRepo.findByEmail(email);	
-		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().get();
-		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().get();
-		if(label==null && note==null) {
-			throw new Exceptions("NoteOrLabelNoteFoundExceptions");
+		Optional<Note> note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny();
+		Optional<Label> label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny();
+		if(label.isPresent() && note.isPresent()) {
+			note.get().getListOfLabel().add(label.get());
+			noteRepo.save(note.get());
+			label.get().getListOfNote().add(note.get());
+			labelRepo.save(label.get());
+			return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
+		
 		}
-		note.getListOfLabel().add(label);
-		noteRepo.save(note);
-		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
+		throw new Exceptions("NoteOrLabelNoteFoundExceptions");
 	}
 
 	@Override
@@ -270,11 +274,12 @@ public class NoteServiceImpli implements NoteServices{
 	public Note isNote(String token,String id) {
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes = noteRepo.findByEmail(email);
-		Note note = notes.stream().filter(i->i.getId().equals(id)).findAny().orElse(null);
-		if(note==null) {
-			throw new Exceptions("NoteNotFoundException");
+		Optional<Note> note = notes.stream().filter(i->i.getId().equals(id)).findAny();
+		if(note.isPresent()) {
+			return note.get();
 		}
-		return note;
+		throw new Exceptions("NoteNotFoundException");
+		
 	}
 
 
