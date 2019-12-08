@@ -13,6 +13,9 @@ public class Model {
 		
 	}
 	private static  ModelMapper mapper;
+	/**
+	 * @return mapper object
+	 */
 	public static ModelMapper getModel() {
 		if(mapper==null) {
 			return new ModelMapper();

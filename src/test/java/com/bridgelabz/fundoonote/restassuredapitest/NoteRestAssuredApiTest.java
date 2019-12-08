@@ -8,11 +8,17 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 
+/**
+ * @purpose Rest Assured Test for Note
+ * @author Ankush Agrawal
+ *
+ */
 public class NoteRestAssuredApiTest {
 	
 	private String baseurl="http://localhost:8080/noteapi";
 	/**
-	 * 
+	 * @purpose Add Note Api Test
+	 * @status 200 Test Passed Otherwise Fail
 	 */
 	@Test
 	public void addNoteApiTest() {
@@ -28,7 +34,8 @@ public class NoteRestAssuredApiTest {
 	}
 	
 	/**
-	 * 
+	 * @purpose delete note Api Test
+	 * @status 200 Test Passed Otherwise Fail
 	 */
 	@Test
 	public void deleteNoteApiTest() {
@@ -38,7 +45,8 @@ public class NoteRestAssuredApiTest {
 	}
 	
 	/**
-	 * 
+	 * @purpose pin/unpin  Api Test
+	 * @status 200 Test Passed Otherwise Fail
 	 */
 	@Test
 	public void pinApiTest() {
@@ -46,20 +54,30 @@ public class NoteRestAssuredApiTest {
 		Response response = httprequest.request(Method.POST,"/pin/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
 		assertEquals(response.getStatusCode(),200);
 	}
-	
+	/**
+	 * @purpose trash/untrash Api Test
+	 * @status 200 Test Passed Otherwise Fail
+	 */
 	@Test
 	public void trashApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);
 		Response response = httprequest.request(Method.POST,"/trash/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
 		assertEquals(response.getStatusCode(),200);
 	}
-	
+	/**
+	 * @purpose archive/unarchive Api Test
+	 * @status 200 Test Passed Otherwise Fail
+	 */
 	@Test
 	public void archiveApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);
 		Response response = httprequest.request(Method.POST,"/archieve/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
 		assertEquals(response.getStatusCode(),200);
 	}
+	/**
+	 * @purpose Update Note Api Test
+	 * @status 200 Test Passed Otherwise Fail
+	 */
 	@Test
 	public void updateNoteApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);

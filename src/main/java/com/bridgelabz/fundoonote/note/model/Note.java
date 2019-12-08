@@ -14,6 +14,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import com.bridgelabz.fundoonote.label.model.Label;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Data
 public class Note {
 	@Pattern(regexp=".+@.+\\.[a-z]+")

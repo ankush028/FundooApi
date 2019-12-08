@@ -9,9 +9,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *@Date 20 Nov 2019
  */
 
+
 @Configuration
 public class Encryptpassword {
-	//for encrypt and decrypt the password
+
+	/**
+	 * @purpose  to store the encrypted password
+	 * @return Encrypted Password
+	 */
 	@Bean
 	public PasswordEncoder encoder() {
 	//it will return an object of BCryptPasswordEncoder

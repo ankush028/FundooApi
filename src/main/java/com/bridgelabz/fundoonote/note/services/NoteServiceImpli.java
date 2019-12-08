@@ -41,12 +41,12 @@ public class NoteServiceImpli implements NoteServices{
 	 * @see  com.bridgelabz.fundoonote.Repository
 	 */
 	@Autowired
-	private UserRepository userRepo;
+	UserRepository userRepo;
 	/**
 	 * @see  com.bridgelabz.fundoonote.note.Repository
 	 */
 	@Autowired
-	private	NoteRepository noteRepo; 
+	NoteRepository noteRepo; 
 
 	@Autowired
 	Environment environment;
@@ -117,6 +117,8 @@ public class NoteServiceImpli implements NoteServices{
 	
 	@Override
 	public List<Note> showAll(){
+		
+		
 		return noteRepo.findAll();
 	}
 	
@@ -146,6 +148,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response isPinned(String id,String token) {
 		Note note = isNote(token,id);
 		note.setPinned(!note.isPinned());
+		noteRepo.save(note);
 		return new Response(200,environment.getProperty("pin"),HttpStatus.OK);
 	}
 		/**
@@ -155,6 +158,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response isTrashed(String id,String token) {
 		Note note = isNote(token,id);
 		note.setTrashed(!note.isTrashed());
+		noteRepo.save(note);
 		return new Response(200,environment.getProperty("trash"),HttpStatus.OK);
 	}
 	/**
@@ -164,6 +168,7 @@ public class NoteServiceImpli implements NoteServices{
 	public Response isArchieved(String id,String token) {
 		Note note = isNote(token,id);
 		note.setTrashed(!note.isArchieved());
+		noteRepo.save(note);
 		return new Response(200,environment.getProperty("archive"),HttpStatus.OK);
 	}
 		

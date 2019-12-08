@@ -10,9 +10,16 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import net.minidev.json.JSONObject;
 
+/**
+ * @purpose write Api Tests Using RestAssured
+ * @author Ankush kumar Agrawal
+ *
+ */
 public class LabelRestAssuredApiTest {
 	private String baseurl="http://localhost:8080/labelapi";
 
+	
+	 
 	@Test
 	public void addLabelApiTest() {
 		RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
@@ -23,6 +30,9 @@ public class LabelRestAssuredApiTest {
 		Response response = httpRequest.request(Method.POST,"/addlabel?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
 		assertEquals(response.getStatusCode(),200);
 	}
+	/**
+	 * 
+	 */
 	@Test
 	public void updateLabelApiTest() {
 		RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
@@ -33,12 +43,19 @@ public class LabelRestAssuredApiTest {
 		Response response = httpRequest.request(Method.PUT,"/update?id=5deb8f66f77ef33fc26cbf4e&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
 		assertEquals(response.getStatusCode(),200);
 	}
+	/**
+	 * 
+	 */
 	@Test
 	public void deleteLabelApiTest() {
 		RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
 		Response response = httpRequest.request(Method.DELETE,"/delete?id=5deb992bf77ef33fc26cbf51&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
 		assertEquals(response.getStatusCode(),200);
 	}
+
+	/**
+	 * 
+	 */
 	//@Test
 	public void getAllDataApiTest() {
 		RequestSpecification httpRequest = RestAssured.given();
@@ -49,4 +66,5 @@ public class LabelRestAssuredApiTest {
 				System.out.println(u.toString());
 			System.out.println(response.get(0).toString());
 }
+
 }

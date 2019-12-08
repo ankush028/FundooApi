@@ -52,8 +52,12 @@ public class LabelServicesimpli implements LabelServices{
 	Environment environment;
 	
 	/**
-	 *METHOD ADD NEW LABEL
+	 * @param labeldto
+	 * @param token
+	 *@purpose METHOD ADD NEW LABEL
+	 *@return Response 
 	 */
+
 	@Override
 	public Response addLabel(LabelDto labeldto, String token) {
 
@@ -70,7 +74,10 @@ public class LabelServicesimpli implements LabelServices{
 	}
 
 	/**
-	 *METHOD FOR DELETE LABEL	
+	 * @purpose to Delete a label
+	 * @param token
+	 * @param id
+	 * @return A Response message operation has performed or not
 	 */
 	@Override
 	public Response deleteLabel(String token, String id) {
@@ -88,7 +95,10 @@ public class LabelServicesimpli implements LabelServices{
 	}
 
 	/**
-	 *UPDATE THE EXISTING LABEL
+	 * @param token
+	 * @param id
+	 * @param labeldto
+	 * @return A Response message operation has performed or not
 	 */
 	@Override
 	public Response updateLabel(String token,String id,LabelDto labeldto) {
@@ -107,7 +117,7 @@ public class LabelServicesimpli implements LabelServices{
 	}
 
 	/**
-	 *METHOD FOR GET ALL LABLES
+	 * @return A Response message operation has performed or not
 	 */
 	@Override
 	public List<Label> getAlllabel() {
@@ -116,7 +126,7 @@ public class LabelServicesimpli implements LabelServices{
 	}
 
 	/**
-	 *METHOD FOR SORT THE LABEL BY TITLE
+	 * @return all label present in database
 	 */
 	@Override
 	public List<Label> sortedByTitle() {
@@ -126,7 +136,7 @@ public class LabelServicesimpli implements LabelServices{
 	}
 
 	/**
-	 *METHOD FOR SORT LABELS BY CREATED DATE
+	 * @return all sorted list in sorted manner
 	 */
 	@Override
 	public List<Label> sortedByDate() {
@@ -135,7 +145,11 @@ public class LabelServicesimpli implements LabelServices{
 				.sorted(Comparator.comparing(Label::getCreatedDate)).collect(Collectors.toList());
 	}
 	/**
-	 *METHOD TO ADD A NOTE IN A LABEL
+	 * @param lblid
+	 * @param email
+	 * @param noteid
+	 *@purpose METHOD ADD NEW Note in label
+	 *@return Response 
 	 */
 	@Override
 	public Response addNote(String email ,String noteid,String lblid) {

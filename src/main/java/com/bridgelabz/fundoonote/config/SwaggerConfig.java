@@ -14,6 +14,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
 
+	/**
+	 * @return Object of Docket
+	 */
 	@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
@@ -23,6 +26,9 @@ public class SwaggerConfig {
 				
 	}
 
+	/**
+	 * @return api Meta Information to show in swagger page
+	 */
 	private ApiInfo metaInfo() {
 		
 		return new ApiInfo(

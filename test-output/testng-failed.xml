@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.bridgelabz.fundoonote.restassuredapitest.LabelRestAssuredApiTest">
+      <class name="com.bridgelabz.fundoonote.restassuredapitest.UserRestAssuredApiTest">
         <methods>
-          <include name="getAllDataApiTest"/>
+          <include name="loginApiTestWithWrongEmail"/>
         </methods>
-      </class> <!-- com.bridgelabz.fundoonote.restassuredapitest.LabelRestAssuredApiTest -->
+      </class> <!-- com.bridgelabz.fundoonote.restassuredapitest.UserRestAssuredApiTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

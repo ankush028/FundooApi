@@ -19,33 +19,61 @@ import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.services.Serviceimpli;
 
+/**
+ * @author admin1
+ *
+ */
+/**
+ * @author admin1
+ *
+ */
+/**
+ * @author admin1
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class UserServiceTest {
 	 
+	/**
+	 * @see com.bridgelabz.fundoonote.services
+	 */
 	@InjectMocks
 	Serviceimpli services;
 
-	
+	/**
+	 * @see com.bridgelabz.fundoonote.repository
+	 */
 	@Mock
 	UserRepository userRepository;
 	
-		String id="fhSGDFG1324";
-	 String email="akag02842gmail.com";
 
+	/**
+	 *@purpose i have taken for test the environment variables used in method
+	 */
 	@Mock
 	Environment environment;
-	
+	/**
+	 * @purpose to convert notedto to model 
+	 */
 	@Mock
 	ModelMapper mapper;
 	
+	/**
+	 * @purpose to encode the password and decode the password
+	 */
 	@Mock
 	Encryptpassword encodePassword;
 	
-	
+	//taken raw data for junit test
 	User user = new User();
 	User user1 = new User();
 	List<User> list= new ArrayList<>();
+	String id="fhSGDFG1324";
+	String email="akag02842gmail.com";
+	/**
+	 * @purpose Written Junit test for checking Note has deleted  by id sucessfully
+	 */
 	@Test
 	public void deleteByIdTest()
 	{
@@ -55,12 +83,18 @@ class UserServiceTest {
 		Response response=services.deleteById(id);
 		assertEquals(200,response.getStatus());
 	}
+	/**
+	 * @purpose Written Junit test for checking Note has searched sucessfully
+	 */
 	@Test
 	public void searchById() {
 		Response res = services.searchById(id);
 		assertEquals(200,res.getStatus());
 
 	}
+	/**
+	 * @purpose Written Junit test for checking Note has found by email sucessfully
+	 */
 	@Test
 	public void findByEmail() {
 		
@@ -74,7 +108,9 @@ class UserServiceTest {
 		Response response = services.findByEmail(anyString());
 		assertEquals(200,response.getStatus());
 	}
-	
+	/**
+	 * @purpose Write Junit test for checking to retrieved all data of user
+	 */
 	@Test
 	public void getAllUser() {
 		User user = new User();
@@ -90,7 +126,6 @@ class UserServiceTest {
 		user1.setPassword("12345");
 		user1.setConfirmPassword("12345");
 		user1.setIsvalidate(true);
-		
 		list.add(user);
 		list.add(user1);
 		when(userRepository.findAll()).thenReturn(list);	

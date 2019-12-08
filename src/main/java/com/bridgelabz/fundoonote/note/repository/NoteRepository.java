@@ -14,6 +14,6 @@ import com.bridgelabz.fundoonote.note.model.Note;
 public interface NoteRepository extends MongoRepository<Note,String>{
 
 	List<Note> findByEmail(String email);
-
+	List<Note> findAll();
 
 }

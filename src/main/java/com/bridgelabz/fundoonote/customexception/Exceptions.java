@@ -8,7 +8,10 @@ public class Exceptions extends RuntimeException{
 	
 	private static final long serialVersionUID = 1L;
 	
-	// custom exceptions 
+
+	/**
+	 * @param message
+	 */
 	public Exceptions(String message) {
 		super(message);
 	}
