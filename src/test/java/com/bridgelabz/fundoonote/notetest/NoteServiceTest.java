@@ -2,12 +2,12 @@ package com.bridgelabz.fundoonote.notetest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import static org.mockito.Matchers.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -72,16 +72,18 @@ public class NoteServiceTest {
 	String id="1234";
 	Note note=new Note();
 	String email = "akddin@gmail.com";
-	User user = new User();
+	User user = new User("", "","","", "", true, "");
 	List<Note> notes = new ArrayList<>();
 	String collabemail="akag005@gmail.com";
 	String rcollabemail="akag005@gmail.com";
 	String date = "12/05/2019";
 	boolean flag;
-	//Response res = null;
+	Optional<Note> optnote = Optional.of(note);
+ 	//Response res = null;
 	String msg = "Added";
 	/**
 	 * @purpose Write Junit test for checking Note has deleted sucessfully
+	 * @status HttpStatus.MOVED_PERMANENTLY Passed
 	 */
 	public void deleteNote() {
 		notes.add(note);	
@@ -131,7 +133,7 @@ public class NoteServiceTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(n);
 	Mockito.when( noteRepo.findAll().stream()
-				.sorted(Comparator.comparing(Note::getTitle)).parallel().collect(Collectors.toList()))
+			.sorted(Comparator.comparing(Note::getTitle)).parallel().collect(Collectors.toList()))
 		.thenReturn(notes);
 	List<Note> listNote = noteservice.sortByTitle();
 	assertEquals("abcd",listNote.get(0).getTitle());
@@ -139,6 +141,7 @@ public class NoteServiceTest {
 	}
 	/**
 	 * @purpose Write Junit test for checking Note has created sucessfully
+	 * @status 200 Passed
 	 */
 	@Test
 	public void createNoteTest() {
@@ -156,58 +159,113 @@ public class NoteServiceTest {
 		System.out.println(response);
 		assertEquals(200,response.getStatus());
 	}
+	/**
+	 * @purpose Write Junit test for checking Note has sucessfully returned
+	 */
 	@Test
 	public void isNoteTest() {
 		Note notee= new Note();
 		notee.setId("1234");
 		notes.add(notee);
-		when(noteJwt.getUserToken(token)).thenReturn(anyString());
+		when(noteJwt.getUserToken(token)).thenReturn(email);
 		when(noteRepo.findByEmail(email)).thenReturn(notes);
-		when(notes.stream().filter(i->i.getId().equals(id)).findAny().get()).thenReturn(note);
 		Note note = noteservice.isNote(token, "1234");
 		assertEquals("1234",note.getId());
 	}
-
+	/**
+	 * @purpose Write Junit test for checking note is pinned sucessfully
+	 * @status 200 Passed otherwise Fail
+	 */
+	@Test
 	public void isPinnedTest() {
-		when(noteservice.isNote(token,id)).thenReturn(note);
+		Note notee= new Note();
+		notee.setId("1234");
+		notes.add(notee);
+		when(noteJwt.getUserToken(token)).thenReturn(email);
+		when(noteRepo.findByEmail(email)).thenReturn(notes);
+		note.setPinned(true);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);	
 		Response response = noteservice.isPinned(id, token);
 		assertEquals(200,response.getStatus());
 	}
-
+	/**
+	 * @purpose Write Junit test for checking note is trashed sucessfully
+	 * @status 200 Passed otherwise Fail
+	 */
+	@Test
 	public void isTrashedTest() {
-		when(noteservice.isNote(token,id)).thenReturn(note);
+		Note notee= new Note();
+		notee.setId("1234");
+		notes.add(notee);
+		when(noteJwt.getUserToken(token)).thenReturn(email);
+		when(noteRepo.findByEmail(email)).thenReturn(notes);
+		note.setTrashed(true);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);	
 		Response response = noteservice.isTrashed(id, token);
 		assertEquals(200,response.getStatus());
 	}
-
+	/**
+	 * @purpose Write Junit test for checking note Archieve sucessfully
+	 * @status 200 Passed otherwise Fail
+	 */
+	@Test
 	public void isArchievedTest() {
-		when(noteservice.isNote(token,id)).thenReturn(note);
+		Note notee= new Note();
+		notee.setId("1234");
+		notes.add(notee);
+		when(noteJwt.getUserToken(token)).thenReturn(email);
+		when(noteRepo.findByEmail(email)).thenReturn(notes);
+		note.setArchieved(true);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);	
 		Response response = noteservice.isPinned(id, token);
 		assertEquals(200,response.getStatus());
 	}
-	
-
+	/**
+	 * @purpose Write Junit test for checking collobrator is added sucessfully
+	 * @status 200 Passed otherwise Fail
+	 */
+	@Test
 	public void addCollobratorTest() {
-		when(userRepo.findByEmail(email)).thenReturn(user);
-		when(noteservice.isNote(token, id)).thenReturn(note);
-		when(note.getListOfcollobarator().contains(collabemail)).thenReturn(flag);
-		doNothing().when(note.getListOfcollobarator().add(collabemail));
-		doNothing().when(noteRepo.save(note));
+		Note notee= new Note();
+		notee.setId("1234");
+		notes.add(notee);
+		when(noteJwt.getUserToken(token)).thenReturn(email);
+		when(noteRepo.findByEmail(email)).thenReturn(notes);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);
+		note.getListOfcollobarator().add(collabemail);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);
 		Response response = noteservice.addCollobrate(token, id, collabemail);
 		assertEquals(200,response.getStatus());
 	}
-
-
-//	public void removeCollobratorTest() {
-//		when(noteservice.isNote(token, id)).thenReturn(note);
-//		doNothing().when(note.getListOfcollobarator().remove(note));
-//		Response response = noteservice.removeCollobrate(token, id, rcollabemail);
-//		assertEquals(200,response.getStatus());
-//	}
-	
-	public void addReminderTest() throws ParseException {
-		when(noteservice.isNote(token, id)).thenReturn(note);
-		doNothing().when(noteRepo.save(note));
+	/**
+	 * @purpose Write Junit test for checking collobrator is removed sucessfully
+	 * @status 200 Passed otherwise Fail
+	 */
+	@Test
+	public void removeCollobratorTest() {
+		Note notee= new Note();
+		notee.setId("1234");
+		notes.add(notee);
+		when(noteJwt.getUserToken(token)).thenReturn(email);
+		when(noteRepo.findByEmail(email)).thenReturn(notes);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);
+		note.getListOfcollobarator().remove(collabemail);
+		Response response = noteservice.removeCollobrate(token, id, rcollabemail);
+		assertEquals(200,response.getStatus());
+	}
+	/**
+	 * @purpose Write Junit test for checking reminder is added sucessfully
+	 * @status 200 Passed otherwise Fail
+	 */
+	@Test
+	public void addReminderTest() throws ParseException {	
+		Note notee= new Note();
+		notee.setId("1234");
+		notes.add(notee);
+		when(noteJwt.getUserToken(token)).thenReturn(email);
+		when(noteRepo.findByEmail(email)).thenReturn(notes);
+		Mockito.when(noteRepo.save(note)).thenReturn(note);
+		when(noteRepo.save(note)).thenReturn(note);
 		Response response= noteservice.addReminder(token, id, date);
 		assertEquals(200,response.getStatus());		
 	}

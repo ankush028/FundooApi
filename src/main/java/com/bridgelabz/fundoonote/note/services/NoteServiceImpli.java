@@ -183,12 +183,9 @@ public class NoteServiceImpli implements NoteServices{
 
 	public Response addCollobrate(String token,String noteId,String collabemail){
 		
-		User user = userRepo.findByEmail(collabemail);
 		Note note = isNote(token,noteId);
 		boolean status = note.getListOfcollobarator().contains(collabemail);
-		if(user ==null) {
-			throw new Exceptions("UserNotFoundExceptions");
-		}
+
 		if(status) {
 			return new Response(200,environment.getProperty("already"),HttpStatus.OK);
 		}
@@ -243,12 +240,12 @@ public class NoteServiceImpli implements NoteServices{
 
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes= noteRepo.findByEmail(email);
-		Note note = notes.stream().filter(i->i.getId().equals(noteId)).findAny().get();
-		if(note==null) {
+		Optional<Note> note = notes.stream().filter(i->i.getId().equals(noteId)).findAny();
+		if(!note.isPresent()) {
 			throw new IllegalArgumentException("Note");
 		}
-		note.setReminder(null);
-		noteRepo.save(note);
+		note.get().setReminder(null);
+		noteRepo.save(note.get());
 		return new Response(200,environment.getProperty("ReminderRemoved"),HttpStatus.OK);
 	}
 
@@ -258,12 +255,12 @@ public class NoteServiceImpli implements NoteServices{
 	public Response updateReminder(String token, String noteId, String date) throws ParseException {
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes= noteRepo.findByEmail(email);
-		Note note = notes.stream().filter(i->i.getId().equals(noteId)).findAny().orElse(null);
-		if(note==null) {
+		Optional<Note> note = notes.stream().filter(i->i.getId().equals(noteId)).findAny();
+		if(!note.isPresent()) {
 			throw new Exceptions("NoteNotFoundException");
 		}
-			note.setReminder(new Utility(date).dateFormat());
-		noteRepo.save(note);
+			note.get().setReminder(new Utility(date).dateFormat());
+		noteRepo.save(note.get());
 		
 		return new Response(200,environment.getProperty("ReminderUpdate"),HttpStatus.OK);
 	}
@@ -275,14 +272,12 @@ public class NoteServiceImpli implements NoteServices{
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes = noteRepo.findByEmail(email);
 		Optional<Note> note = notes.stream().filter(i->i.getId().equals(id)).findAny();
-		if(note.isPresent()) {
-			return note.get();
-		}
-		throw new Exceptions("NoteNotFoundException");
+//		if(!note.isPresent()) {
+//			throw new Exceptions("NoteNotFoundException");
+//		}
+		return note.get();
 		
 	}
-
-
 
 }
 	

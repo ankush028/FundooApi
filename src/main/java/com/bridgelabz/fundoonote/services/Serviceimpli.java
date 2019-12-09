@@ -196,13 +196,13 @@ public class Serviceimpli implements Services{
 			User user = Model.getModel().map(resetdto,User.class);
 			String email = usertoken.getUserToken(tokenn);
 			
-			User userForset = userRepo.findAll().stream().filter(i->i.getEmail().equals(email)).findAny().get();
-			if(user==null) {
+			Optional<User> userForset = userRepo.findAll().stream().filter(i->i.getEmail().equals(email)).findAny();
+			if(!userForset.isPresent()) {
 				throw new Exceptions("UserNotFoundExceptions");
 			}
-			userForset.setPassword(encodePassword.encoder().encode(user.getPassword()));
-			userForset.setConfirmPassword(user.getConfirmPassword());
-			userRepo.save(userForset);
+			userForset.get().setPassword(encodePassword.encoder().encode(user.getPassword()));
+			userForset.get().setConfirmPassword(user.getConfirmPassword());
+			userRepo.save(userForset.get());
 			return new Response(200,environment.getProperty("reset"),HttpStatus.OK);
 		}
 		return new Response(200,environment.getProperty("password_MisMatch"),HttpStatus.OK);

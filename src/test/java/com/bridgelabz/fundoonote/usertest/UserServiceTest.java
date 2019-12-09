@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,23 +16,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.bridgelabz.fundoonote.config.Encryptpassword;
+import com.bridgelabz.fundoonote.dto.RegisterDto;
 import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.services.Serviceimpli;
 
-/**
- * @author admin1
- *
- */
-/**
- * @author admin1
- *
- */
-/**
- * @author admin1
- *
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class UserServiceTest {
@@ -65,12 +56,17 @@ class UserServiceTest {
 	@Mock
 	Encryptpassword encodePassword;
 	
-	//taken raw data for junit test
-	User user = new User();
-	User user1 = new User();
-	List<User> list= new ArrayList<>();
-	String id="fhSGDFG1324";
+	/**
+	 * @purpose For Write Junit Test TAKE RAW DATA*
+	 * 
+	 */
 	String email="akag02842gmail.com";
+	String id="fhSGDFG1324";
+	User user = new User("Ankush",id,email,"1234", "1234", true, "abcdef.jpg");
+	User user1 = new User("Ankit", id, email, "1234", "1234", false, "abcfs312def.jpg");
+	List<User> list= new ArrayList<>();
+	Optional<User> optuser = Optional.of(user);
+	
 	/**
 	 * @purpose Written Junit test for checking Note has deleted  by id sucessfully
 	 */
@@ -97,13 +93,7 @@ class UserServiceTest {
 	 */
 	@Test
 	public void findByEmail() {
-		
-		user.setId(id);
-		user.setEmail(email);
-		user.setName("ankush");
-		user.setPassword("1234");
-		user.setConfirmPassword("1234");
-		user.setIsvalidate(true);	
+
 		when(userRepository.findByEmail(anyString())).thenReturn(user);
 		Response response = services.findByEmail(anyString());
 		assertEquals(200,response.getStatus());
@@ -113,26 +103,30 @@ class UserServiceTest {
 	 */
 	@Test
 	public void getAllUser() {
-		User user = new User();
-		user.setId(id);
-		user.setEmail(email);
-		user.setName("ankush");
-		user.setPassword("1234");
-		user.setConfirmPassword("1234");
-		user.setIsvalidate(true);	
-		user1.setId(id);
-		user1.setEmail(email);
-		user1.setName("ankit");
-		user1.setPassword("12345");
-		user1.setConfirmPassword("12345");
-		user1.setIsvalidate(true);
 		list.add(user);
 		list.add(user1);
 		when(userRepository.findAll()).thenReturn(list);	
 		List<User> listOfUser =services.getAllUser();
-		assertEquals("ankush",listOfUser.get(0).getName());		
+		assertEquals("Ankush",listOfUser.get(0).getName());		
 	}
 	
-
+	/**
+	 * @purpose written Junit Test to Test details update of user
+	 * @status 200 Passed Otherwise Faild
+	 */
+	@Test
+	public void updateUserTest() {
+		RegisterDto dto = new RegisterDto();
+		dto.setName("Raja");
+		dto.setEmail("akag0284@gmail.com");
+		dto.setPassword("1234");
+		dto.setConfirmPassword("1234");
+		when(userRepository.findById(id)).thenReturn(optuser);
+		optuser.get().setName("Rahul");
+		when(userRepository.save(user)).thenReturn(user);
+		Response response = services.update(dto, id);
+		assertEquals(200,response.getStatus());
+		
+	}
 
 }

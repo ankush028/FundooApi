@@ -19,7 +19,7 @@ public class Encryptpassword {
 	 */
 	@Bean
 	public PasswordEncoder encoder() {
-	//it will return an object of BCryptPasswordEncoder
+
 		return new BCryptPasswordEncoder();
 	}
 	

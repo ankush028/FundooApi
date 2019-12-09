@@ -24,35 +24,63 @@ import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.utility.Jwt;
 
+/**
+ * @author ANKUSH KUMAR AGRAWAL
+ * @purpose Junit test of label services
+ *
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LabelServiceTest {
 
+	/**
+	 * @see com.bridgelabz.fundoonote.label.services
+	 */
 	@InjectMocks
 	LabelServicesimpli labelservice; 
-	
+	/**
+	 * @see com.bridgelabz.fundoonote.label.repository
+	 */
 	@Mock
 	LabelRepository labelRepo;
-	
+	/**
+	 * @see com.bridgelabz.fundoonote.repository
+	 */
 	@Mock
 	UserRepository userRepo;
-	
+	/**
+	 *@purpose Model Mapper to convert dto to model
+	 */
 	@Mock
 	ModelMapper mapper;
 	
+	/**
+	 *@purpose i have taken for test the environment variables used in method
+	 */
 	@Mock
 	Environment environment;
+	/**
+	 * @see com,bridgelabz.fundoonote.utility
+	 * @purpose to conversion of token 
+	 */
 	
 	@Mock
 	Jwt jwt;
-	
+	/**
+	 * @purpose Raw data for testing all methods 
+	 */
 	String email ="akag0284@gmail.com";
 	String token ="12fkdn1211df234";
 	String id="adcnbvd1223423v";
-	User user = new User();
+	User user = new User(email, email, email, email, email, false, email);
 	Label label = new Label();
 	List<Label> list = new ArrayList<>();
 	Label lab=null; 
+	
+	/**
+	 * @purpose Write Junit test for checking all data retrieved 
+	 */
 	@Test
 	public void getAllLabel()
 	{
@@ -65,19 +93,25 @@ public class LabelServiceTest {
 		assertEquals("abcde",list.get(0).getLabeltitle());
 			
 	}
+	/**
+	 * @purpose Write Junit test for checking all data sorted retrieved 
+	 */
 	@Test
 	public void sortedByTitle() {
 		Label label = new Label();
 		label.setLabeltitle("abcde");
 		List<Label> listofLabel = new ArrayList<>();
-		listofLabel.add(label);
-		
+		listofLabel.add(label);	
 		Mockito.when(labelRepo.findAll().stream()
 				.sorted(Comparator.comparing(Label::getLabeltitle)).collect(Collectors.toList()))
 		.thenReturn(listofLabel);
 		List<Label> list = labelservice.sortedByTitle();
 		assertEquals("abcde",list.get(0).getLabeltitle());		
 	}
+	/**
+	 * @purpose Write Junit test for checking label data added Sucessfully
+	 * @status 200  test passed 
+	 */
 	@Test
 	public void addLabelTest() {
 		LabelDto lbldto = new LabelDto();
@@ -92,13 +126,16 @@ public class LabelServiceTest {
 		assertEquals(200,res.getStatus());		
 	}
 
+	/**
+	 * @purpose Write Junit test for checking label removed Sucessfully
+	 * @status 200  test passed 
+	 */
 
 	public void removeLabelTest() {
 
 		when(jwt.getUserToken(token)).thenReturn(email);
 		when(labelRepo.findByEmail(email)).thenReturn(list);
 		doNothing().when(labelRepo).delete(label);
-	//	when(list.stream().filter(i->i.getLabelid().equals(id)).findAny().get()).thenReturn(lab);
 		Response response = labelservice.deleteLabel(token, id);
 		assertEquals(200,response.getStatus());		
 		

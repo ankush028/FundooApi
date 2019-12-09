@@ -20,6 +20,10 @@ public class LabelRestAssuredApiTest {
 
 	
 	 
+	/**
+	 * @purpose Add Label Api Test
+	 * @status 200 Test Passed Otherwise Fail
+	 */
 	@Test
 	public void addLabelApiTest() {
 		RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
@@ -31,7 +35,8 @@ public class LabelRestAssuredApiTest {
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
-	 * 
+	 * @purpose Add Label Api Test
+	 * @status 200 Test Passed Otherwise Fail
 	 */
 	@Test
 	public void updateLabelApiTest() {
@@ -44,7 +49,8 @@ public class LabelRestAssuredApiTest {
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
-	 * 
+	 * @purpose Add Label Api Test
+	 * @status 200 Test Passed Otherwise Fail
 	 */
 	@Test
 	public void deleteLabelApiTest() {
@@ -54,7 +60,8 @@ public class LabelRestAssuredApiTest {
 	}
 
 	/**
-	 * 
+	 * @purpose Add Label Api Test
+	 * @status 200 Test Passed Otherwise Fail
 	 */
 	//@Test
 	public void getAllDataApiTest() {
