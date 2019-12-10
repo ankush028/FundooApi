@@ -7,20 +7,24 @@ import static org.mockito.Mockito.doNothing;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.bridgelabz.fundoonote.config.Encryptpassword;
+
+import com.bridgelabz.fundoonote.config.Model;
 import com.bridgelabz.fundoonote.dto.RegisterDto;
+import com.bridgelabz.fundoonote.model.RabbitMq;
 import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.services.Serviceimpli;
+import com.bridgelabz.fundoonote.utility.Jms;
+import com.bridgelabz.fundoonote.utility.Jwt;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +47,7 @@ class UserServiceTest {
 	 *@purpose i have taken for test the environment variables used in method
 	 */
 	@Mock
-	Environment environment;
+	Environment env;
 	/**
 	 * @purpose to convert notedto to model 
 	 */
@@ -54,27 +58,39 @@ class UserServiceTest {
 	 * @purpose to encode the password and decode the password
 	 */
 	@Mock
-	Encryptpassword encodePassword;
+	BCryptPasswordEncoder encodePassword;
 	
+	@Mock
+	Jwt jwt;
+	
+	@Mock
+	Jms jms;
+	
+	@Mock
+	RegisterDto dto;
 	/**
 	 * @purpose For Write Junit Test TAKE RAW DATA*
 	 * 
 	 */
 	String email="akag02842gmail.com";
 	String id="fhSGDFG1324";
-	User user = new User("Ankush",id,email,"1234", "1234", true, "abcdef.jpg");
-	User user1 = new User("Ankit", id, email, "1234", "1234", false, "abcfs312def.jpg");
+	String password = "abcde";
+	String confirmPassword = "abcde";
+	User user = new User("Ankush",id,email,password, confirmPassword, true, "abcdef.jpg");
+	User user1 = new User("Ankit", id, email,password,confirmPassword, false, "abcfs312def.jpg");
 	List<User> list= new ArrayList<>();
 	Optional<User> optuser = Optional.of(user);
-	
+	// = new RegisterDto("Ankush", email,password,confirmPassword);
+	RabbitMq model = new RabbitMq(email,"edlahdiguqhegq","bakjfiuahhaiuhw");
+	String pass = "dshfkjsdhiahg";
+	String noteId ="4321cba";
+	String lblid = "1234abc";
 	/**
 	 * @purpose Written Junit test for checking Note has deleted  by id sucessfully
 	 */
 	@Test
 	public void deleteByIdTest()
 	{
-
-		when(services.deleteById(id)).thenReturn(null);
 		doNothing().when(userRepository).deleteById("id");
 		Response response=services.deleteById(id);
 		assertEquals(200,response.getStatus());
@@ -116,15 +132,27 @@ class UserServiceTest {
 	 */
 	@Test
 	public void updateUserTest() {
-		RegisterDto dto = new RegisterDto();
-		dto.setName("Raja");
-		dto.setEmail("akag0284@gmail.com");
-		dto.setPassword("1234");
-		dto.setConfirmPassword("1234");
 		when(userRepository.findById(id)).thenReturn(optuser);
 		optuser.get().setName("Rahul");
 		when(userRepository.save(user)).thenReturn(user);
 		Response response = services.update(dto, id);
+		assertEquals(200,response.getStatus());		
+	}
+	@Test
+	public void addUser() {
+		dto.setPassword(password);
+		dto.setConfirmPassword(confirmPassword);
+		when(dto.getPassword()).thenReturn(password);
+		when(dto.getConfirmPassword()).thenReturn(confirmPassword);
+		when(userRepository.findByEmail(email)).thenReturn(user);
+		when(Model.getModel().map(dto,User.class)).thenReturn(user);	
+		when(encodePassword.encode(password)).thenReturn(anyString());	
+		doThrow().when(new ModelMapper());
+		user.setPassword(pass);
+		when(userRepository.save(user)).thenReturn(user);		
+		when(env.getProperty("Add")).thenReturn(anyString());
+		Response response= services.addUser(dto);
+		System.out.println("Hello");
 		assertEquals(200,response.getStatus());
 		
 	}

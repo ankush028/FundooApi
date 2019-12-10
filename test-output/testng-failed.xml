@@ -6,6 +6,14 @@
       <class name="com.bridgelabz.fundoonote.restassuredapitest.UserRestAssuredApiTest">
         <methods>
           <include name="loginApiTestWithWrongEmail"/>
+          <include name="loginApiTestWithWrongPassword"/>
+          <include name="forgetPasswordTest"/>
+          <include name="getAllUserApiTest"/>
+          <include name="loginApiTest"/>
+          <include name="deleteUserApiTest"/>
+          <include name="addUserApiTest"/>
+          <include name="resetPasswordTest"/>
+          <include name="searchUserApiTest"/>
         </methods>
       </class> <!-- com.bridgelabz.fundoonote.restassuredapitest.UserRestAssuredApiTest -->
     </classes>

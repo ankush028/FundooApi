@@ -232,6 +232,7 @@ public class NoteServiceTest {
 		when(noteJwt.getUserToken(token)).thenReturn(email);
 		when(noteRepo.findByEmail(email)).thenReturn(notes);
 		Mockito.when(noteRepo.save(note)).thenReturn(note);
+		
 		note.getListOfcollobarator().add(collabemail);
 		Mockito.when(noteRepo.save(note)).thenReturn(note);
 		Response response = noteservice.addCollobrate(token, id, collabemail);

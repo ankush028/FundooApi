@@ -183,9 +183,12 @@ public class NoteServiceImpli implements NoteServices{
 
 	public Response addCollobrate(String token,String noteId,String collabemail){
 		
+		User user = userRepo.findByEmail(collabemail);
 		Note note = isNote(token,noteId);
 		boolean status = note.getListOfcollobarator().contains(collabemail);
-
+		if(user.equals(null)) {
+			throw new Exceptions("UserNotFoundExceptions");
+		}
 		if(status) {
 			return new Response(200,environment.getProperty("already"),HttpStatus.OK);
 		}

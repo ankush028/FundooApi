@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -60,41 +59,43 @@ public class Serviceimpli implements Services{
 	 * @see com.bridgelabz.fundoonote.Utility
 	 */
 	@Autowired
-		Jms jms;
+	Jms jms;
 	
 	@Autowired
 	Environment environment;
-
-	static Logger logger =	Logger.getLogger(Serviceimpli.class.getName());
 	
+	
+	static Logger logger =	Logger.getLogger(Serviceimpli.class.getName());
+
 	/**
+	 * @param Register dto
+	 * @return Response body
 	 *To Add A New User with A Unique EmailId
 	 */	
 	@Override
 	public Response addUser(RegisterDto regdto) {
-
-		User user = Model.getModel().map(regdto, User.class);
-		boolean checkPasswords = regdto.getPassword().equals(regdto.getConfirmPassword());		
-		User isEmailPresent = userRepo.findByEmail(regdto.getEmail());
+		
+	
+		boolean checkPasswords = regdto.getPassword().equals(regdto.getConfirmPassword());
 		if(!checkPasswords) {			
-			return new Response(200,environment.getProperty("password_MisMatch"),HttpStatus.OK);		
-		} 
+			return new Response(400,environment.getProperty("password_MisMatch"),HttpStatus.UNAUTHORIZED);		
+		}
+		User isEmailPresent = userRepo.findByEmail(regdto.getEmail()); 
 		if(isEmailPresent!=null) {
-				logger.warning("User exist already");
+			logger.warning("User exist already");
 			return new Response(200,environment.getProperty("Email_Exist"),HttpStatus.OK);
 		}
-			
+			User user =Model.getModel().map(regdto, User.class);
 			String encodedPassword = encodePassword.encoder().encode((regdto.getPassword()));
 			user.setPassword(encodedPassword);//set encrypted password to the data bases
 			userRepo.save(user);
 			logger.info( environment.getProperty("Add"));
-			
 			String generatedToken=usertoken.createToken(user.getEmail());			
-			RabbitMq model = new RabbitMq(
+			RabbitMq rmodel = new RabbitMq(
 			regdto.getEmail(),environment.getProperty("url")+generatedToken,environment.getProperty("subject"));				
-			jms.sendMail(model);	
-			String message = environment.getProperty("Add");
-			return new Response(200,message,HttpStatus.OK);
+			jms.sendMail(rmodel);	
+		
+			return new Response(200,environment.getProperty("Add"),HttpStatus.OK);
 	}	
 
 	/**
@@ -104,7 +105,7 @@ public class Serviceimpli implements Services{
 	public List<User> getAllUser() {
 		return userRepo.findAll();
 	}
-	//delete user by id
+
 	/**
 	 *METHOD FOR DELETE A USER BY ID
 	 */
@@ -133,15 +134,18 @@ public class Serviceimpli implements Services{
 	@Override
 	public Response update(RegisterDto regdto, String id) {
 		
-		User userUpdate = userRepo.findById(id).get();
-		userUpdate.setName(regdto.getName());
-		userRepo.save(userUpdate);
+		Optional<User> userUpdate = userRepo.findById(id);
+		if(!userUpdate.isPresent()) {
+			throw new Exceptions("UserNotFoundExceptions");
+		}
+		userUpdate.get().setName(regdto.getName());
+		userRepo.save(userUpdate.get());
 		return new Response(200,environment.getProperty("update"),HttpStatus.ACCEPTED);
 	}
 	// this method to login user by emailid and password
 	/**
 	 *@param login dto
-	 *@return Resp[onse message
+	 *@return Response body
 	 */
 	public Response login(LoginDto logindto) {
 		
@@ -157,10 +161,9 @@ public class Serviceimpli implements Services{
 			return new Response(200,environment.getProperty("Login_Fail"),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 		} 
 
-	
-
-	
 	/**
+	 * @param email
+	 * @return Response body
 	 *method for find the user by email id
 	 */
 	@Override
@@ -173,6 +176,8 @@ public class Serviceimpli implements Services{
 	}
 //check validation of token 
 	/**
+	 * @param token
+	 * @return Response body
 	 *this method is written for validation check of the token
 	 */
 	public Response isValidate(String token) {
@@ -187,6 +192,9 @@ public class Serviceimpli implements Services{
 		return new Response(200,environment.getProperty("valid"),HttpStatus.OK);
 	}
 	/**
+	 * @param resetsto 
+	 * @param token
+	 * @return Response body
 	 *Method for resetting the password
 	 */
 	@Override
@@ -209,6 +217,9 @@ public class Serviceimpli implements Services{
 	}
 	//Forgot the password 
 	/**
+	 * @param email
+	 * @return link will goes in youe email
+	 * @return status
 	 *Method for forgetting the password
 	 */
 	@Override
@@ -253,7 +264,8 @@ public class Serviceimpli implements Services{
 
 	}
 	/**
-	 *
+	 *@param TOKEN
+	 *@return Response status And Response message
 	 */
 	@Override
 	public Response removePhoto(String token) {
@@ -267,6 +279,9 @@ public class Serviceimpli implements Services{
 		return new Response(200,environment.getProperty("imageDelete"),HttpStatus.OK);
 	}
 	/**
+	 * @param  file
+	 * @param token
+	 * @return Response body
 	 *method for update the photo
 	 */
 	@Override

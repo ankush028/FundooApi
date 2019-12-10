@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import com.bridgelabz.fundoonote.label.model.Label;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.Getter;
@@ -45,7 +46,7 @@ public class Note {
 	private Date reminder;
 	
 	
-	
+	@JsonIgnore
 	@DBRef(lazy=true)
 	ArrayList<Label> listOfLabel=new ArrayList<>();
 	

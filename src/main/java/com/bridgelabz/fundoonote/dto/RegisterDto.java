@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 /**@Purpose Fundoo Api
  * @author Ankush Kumar Agrawal
@@ -12,6 +12,7 @@ import lombok.Data;
  */
 
 //Data Transfer object class of Registeration
+@AllArgsConstructor
 @Data
 public class RegisterDto {
 

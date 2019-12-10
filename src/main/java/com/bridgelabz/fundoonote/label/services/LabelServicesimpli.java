@@ -6,6 +6,7 @@ package com.bridgelabz.fundoonote.label.services;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -47,7 +48,7 @@ public class LabelServicesimpli implements LabelServices{
 	 */
 	@Autowired
 	private NoteRepository noteRepo;
-//	
+	
 	@Autowired
 	Environment environment;
 	
@@ -86,11 +87,11 @@ public class LabelServicesimpli implements LabelServices{
 
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
 
-		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().get();
-		if(label==null) {	
+		Optional<Label> label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny();
+		if(!label.isPresent()) {	
 		throw new Exceptions("LabelNotFoundExceptions");
 	}
-		labelRepo.delete(label);
+		labelRepo.delete(label.get());
 		return new Response(200,environment.getProperty("delete_label"),HttpStatus.OK);
 	}
 
@@ -104,14 +105,14 @@ public class LabelServicesimpli implements LabelServices{
 	public Response updateLabel(String token,String id,LabelDto labeldto) {
 		String email = jwtToken.getUserToken(token);
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
-		Label label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny().get();
-		if(label==null) { 
+		Optional<Label> label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny();
+		if(!label.isPresent()) { 
 		throw new Exceptions("LabelNotFoundExceptions");
 		}
 
-		label.setUpdatedDate(LocalDate.now());		
-		label.setLabeltitle(labeldto.getLabeltitle());	
-		labelRepo.save(label);
+		label.get().setUpdatedDate(LocalDate.now());		
+		label.get().setLabeltitle(labeldto.getLabeltitle());	
+		labelRepo.save(label.get());
 		
 		return new Response(200,environment.getProperty("update_label"),HttpStatus.OK);
 	}
@@ -148,21 +149,21 @@ public class LabelServicesimpli implements LabelServices{
 	 * @param lblid
 	 * @param email
 	 * @param noteid
-	 *@purpose METHOD ADD NEW Note in label
-	 *@return Response 
+	 * @purpose METHOD ADD NEW Note in label
+	 * @return Response 
 	 */
 	@Override
 	public Response addNote(String email ,String noteid,String lblid) {
 
 		List<Note> listOfNote = noteRepo.findByEmail(email);
 		List<Label> listOfLabel = labelRepo.findByEmail(email);
-		Note note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny().get();
-		Label label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny().get();
-		if(note==null && label==null) { 
+		Optional<Note> note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny();
+		Optional<Label> label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny();
+		if(!note.isPresent() && !label.isPresent()) { 
 			throw new Exceptions("EitherNoteOrUserNotFoundException");
 		}
-		label.getListOfNote().add(note);
-		labelRepo.save(label);
+		label.get().getListOfNote().add(note.get());
+		labelRepo.save(label.get());
 		
 		return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 	}
