@@ -65,7 +65,7 @@ public class LabelServicesimpli implements LabelServices{
 		String email = jwtToken.getUserToken(token);
 		User user = userRepo.findByEmail(email);
  		if(user==null) {
-			throw new Exceptions("UserNotFoundException");
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 		Label label =Model.getModel().map(labeldto,Label.class);
 		label.setCreatedDate(LocalDate.now());
@@ -89,7 +89,7 @@ public class LabelServicesimpli implements LabelServices{
 
 		Optional<Label> label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny();
 		if(!label.isPresent()) {	
-		throw new Exceptions("LabelNotFoundExceptions");
+		throw new Exceptions(environment.getProperty("labelException"));
 	}
 		labelRepo.delete(label.get());
 		return new Response(200,environment.getProperty("delete_label"),HttpStatus.OK);
@@ -107,7 +107,7 @@ public class LabelServicesimpli implements LabelServices{
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
 		Optional<Label> label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny();
 		if(!label.isPresent()) { 
-		throw new Exceptions("LabelNotFoundExceptions");
+		throw new Exceptions(environment.getProperty("labelException"));
 		}
 
 		label.get().setUpdatedDate(LocalDate.now());		
@@ -160,7 +160,7 @@ public class LabelServicesimpli implements LabelServices{
 		Optional<Note> note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny();
 		Optional<Label> label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny();
 		if(!note.isPresent() && !label.isPresent()) { 
-			throw new Exceptions("EitherNoteOrUserNotFoundException");
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 		label.get().getListOfNote().add(note.get());
 		labelRepo.save(label.get());

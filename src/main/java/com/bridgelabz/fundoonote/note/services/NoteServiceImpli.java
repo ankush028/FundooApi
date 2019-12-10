@@ -65,7 +65,7 @@ public class NoteServiceImpli implements NoteServices{
 		String email= noteJwt.getUserToken(token);
 		User user = userRepo.findByEmail(email);
 		if(user==null) {
-			throw new Exceptions("UserNotFoundException");
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 			Note note = Model.getModel().map(notedto,Note.class);
 			note.setCreatedDate(LocalDate.now());
@@ -186,8 +186,8 @@ public class NoteServiceImpli implements NoteServices{
 		User user = userRepo.findByEmail(collabemail);
 		Note note = isNote(token,noteId);
 		boolean status = note.getListOfcollobarator().contains(collabemail);
-		if(user.equals(null)) {
-			throw new Exceptions("UserNotFoundExceptions");
+		if(user==null) {
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 		if(status) {
 			return new Response(200,environment.getProperty("already"),HttpStatus.OK);
@@ -223,7 +223,7 @@ public class NoteServiceImpli implements NoteServices{
 			return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 		
 		}
-		throw new Exceptions("NoteOrLabelNoteFoundExceptions");
+		throw new Exceptions(environment.getProperty("noteException"));
 	}
 
 	@Override
@@ -275,10 +275,11 @@ public class NoteServiceImpli implements NoteServices{
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes = noteRepo.findByEmail(email);
 		Optional<Note> note = notes.stream().filter(i->i.getId().equals(id)).findAny();
-//		if(!note.isPresent()) {
-//			throw new Exceptions("NoteNotFoundException");
-//		}
+		if(note.isPresent()) {	
+			throw new Exceptions(environment.getProperty("noteException"));
+		}
 		return note.get();
+		
 		
 	}
 

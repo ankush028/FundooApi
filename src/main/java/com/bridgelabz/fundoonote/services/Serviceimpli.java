@@ -136,7 +136,7 @@ public class Serviceimpli implements Services{
 		
 		Optional<User> userUpdate = userRepo.findById(id);
 		if(!userUpdate.isPresent()) {
-			throw new Exceptions("UserNotFoundExceptions");
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 		userUpdate.get().setName(regdto.getName());
 		userRepo.save(userUpdate.get());
@@ -170,7 +170,7 @@ public class Serviceimpli implements Services{
 	public Response findByEmail(String email) {
 		User user =userRepo.findByEmail(email);
 		if(user==null) {
-			throw new Exceptions("UserNotFoundExceptions");
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 		return new Response(200,environment.getProperty("Find"),user);
 	}
@@ -206,7 +206,7 @@ public class Serviceimpli implements Services{
 			
 			Optional<User> userForset = userRepo.findAll().stream().filter(i->i.getEmail().equals(email)).findAny();
 			if(!userForset.isPresent()) {
-				throw new Exceptions("UserNotFoundExceptions");
+				throw new Exceptions(environment.getProperty("userException"));
 			}
 			userForset.get().setPassword(encodePassword.encoder().encode(user.getPassword()));
 			userForset.get().setConfirmPassword(user.getConfirmPassword());
@@ -250,7 +250,7 @@ public class Serviceimpli implements Services{
 		User user = userRepo.findByEmail(email);
 
 		if(file.isEmpty() && user==null) {
-			throw new Exceptions("UserNotFoundException");
+			throw new Exceptions(environment.getProperty("userException"));
 		}	
 			byte[] bytes = file.getBytes();				
 			String extension =file.getContentType().replace("image/","");		
@@ -272,7 +272,7 @@ public class Serviceimpli implements Services{
 		String email = usertoken.getUserToken(token);
 		User user = userRepo.findByEmail(email);
 		if(user==null) {
-			throw new Exceptions("UserNotFoundException");
+			throw new Exceptions(environment.getProperty("userException"));
 		}
 		user.setProfile(null);
 		userRepo.save(user);
