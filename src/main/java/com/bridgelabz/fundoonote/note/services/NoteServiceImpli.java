@@ -275,7 +275,7 @@ public class NoteServiceImpli implements NoteServices{
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes = noteRepo.findByEmail(email);
 		Optional<Note> note = notes.stream().filter(i->i.getId().equals(id)).findAny();
-		if(note.isPresent()) {	
+		if(!note.isPresent()) {	
 			throw new Exceptions(environment.getProperty("noteException"));
 		}
 		return note.get();

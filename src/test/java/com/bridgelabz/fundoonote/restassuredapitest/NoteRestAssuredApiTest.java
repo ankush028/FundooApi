@@ -28,7 +28,7 @@ public class NoteRestAssuredApiTest {
 		notedto.put("description","describnekslsnd");
 		httprequest.header("Content-Type","application/json");
 		httprequest.body(notedto.toJSONString());	
-		Response response =httprequest.request(Method.POST,"/addNote?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
+		Response response =httprequest.request(Method.POST,"/addNote?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU");
 		System.out.println(response.getStatusCode());
 		assertEquals(response.getStatusCode(),200);	
 	}
@@ -40,7 +40,7 @@ public class NoteRestAssuredApiTest {
 	@Test
 	public void deleteNoteApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);
-		Response response = httprequest.request(Method.DELETE,"/delete/?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU&id=5deb8c99f77ef33fc26cbf4c");
+		Response response = httprequest.request(Method.DELETE,"/delete/?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU&id=5def8542866b320428d9b6f8");
 		assertEquals(response.getStatusCode(),200);
 	}
 	
@@ -51,7 +51,7 @@ public class NoteRestAssuredApiTest {
 	@Test
 	public void pinApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);
-		Response response = httprequest.request(Method.POST,"/pin/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
+		Response response = httprequest.request(Method.POST,"/pin/?id=5def8542866b320428d9b6f8&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU");
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
@@ -61,7 +61,7 @@ public class NoteRestAssuredApiTest {
 	@Test
 	public void trashApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);
-		Response response = httprequest.request(Method.POST,"/trash/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
+		Response response = httprequest.request(Method.POST,"/trash/?id=5def8542866b320428d9b6f8&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU");
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
@@ -71,7 +71,7 @@ public class NoteRestAssuredApiTest {
 	@Test
 	public void archiveApiTest() {
 		RequestSpecification httprequest = RestAssured.given().baseUri(baseurl);
-		Response response = httprequest.request(Method.POST,"/archieve/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
+		Response response = httprequest.request(Method.POST,"/archieve/?id=5def8542866b320428d9b6f8&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU");
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
@@ -86,7 +86,7 @@ public class NoteRestAssuredApiTest {
 		notedto.put("description","nottedescupdate");
 		httprequest.header("Content-Type","application/json");
 		httprequest.body(notedto.toJSONString());
-		Response response = httprequest.request(Method.PUT,"/updateNote/?id=5deb8c36f77ef33fc26cbf4a&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTcxNzg0Nn0.yXLgFAXRsP6rcU2Qk-bZzhGxBGgi0k1WQbyROpq8CdU");
+		Response response = httprequest.request(Method.PUT,"/updateNote/?id=5def8542866b320428d9b6f8&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU");
 		assertEquals(response.getStatusCode(),200);
 	}
 	

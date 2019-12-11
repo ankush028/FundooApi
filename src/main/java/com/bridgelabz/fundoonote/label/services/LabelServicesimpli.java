@@ -114,7 +114,7 @@ public class LabelServicesimpli implements LabelServices{
 		label.get().setLabeltitle(labeldto.getLabeltitle());	
 		labelRepo.save(label.get());
 		
-		return new Response(200,environment.getProperty("update_label"),HttpStatus.OK);
+		return new Response(200,environment.getProperty("Update_label"),HttpStatus.OK);
 	}
 
 	/**

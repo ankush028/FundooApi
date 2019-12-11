@@ -45,7 +45,7 @@ public class LabelRestAssuredApiTest {
 		lbldto.put("labeltitle","Rest asdas");
 		httpRequest.header("Content-Type","application/json");
 		httpRequest.body(lbldto.toJSONString());
-		Response response = httpRequest.request(Method.PUT,"/update?id=5deb8f66f77ef33fc26cbf4e&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
+		Response response = httpRequest.request(Method.PUT,"/update?id=5def8488866b320428d9b6f7&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
@@ -55,7 +55,7 @@ public class LabelRestAssuredApiTest {
 	@Test
 	public void deleteLabelApiTest() {
 		RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
-		Response response = httpRequest.request(Method.DELETE,"/delete?id=5deb992bf77ef33fc26cbf51&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
+		Response response = httpRequest.request(Method.DELETE,"/delete?id=5def8488866b320428d9b6f7&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
 		assertEquals(response.getStatusCode(),200);
 	}
 

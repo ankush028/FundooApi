@@ -27,7 +27,7 @@ public class UserRestAssuredApiTest {
 	public void searchUserApiTest() {
 			
 			RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
-			Response response = httpRequest.request(Method.GET,"getUser?id=5de38fcc235442524e0823bd");
+			Response response = httpRequest.request(Method.GET,"getUser?id=5def7f66d1a0325734d61896");
 			int code = response.getStatusCode();
 			System.out.println("Get User Test "+code);		
 			assertEquals(200,code);
@@ -114,7 +114,7 @@ public class UserRestAssuredApiTest {
 		resetdto.put("confirmPassword","1234");
 		httpRequest.header("Content-Type","application/json");
 		httpRequest.body(resetdto.toJSONString());
-		Response response = httpRequest.request(Method.POST,"/reset/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTA5MTExMX0.iqiFM0YMblL9oT80rXa3fbhcQQcYu-UwAHRExkhaKm8");
+		Response response = httpRequest.request(Method.POST,"/reset/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJha2FnMDA2QGdtYWlsLmNvbSIsImlhdCI6MTU3NTk3NjgwNn0.qIVz26K6lJ9MTcMm1ykPMT3hj8FZiXt7PTvsCj-7XCU");
 		assertEquals(response.getStatusCode(),200);
 	}
 	/**
@@ -156,7 +156,7 @@ public class UserRestAssuredApiTest {
 	@Test
 	public void deleteUserApiTest() {
 		RequestSpecification httpRequest = RestAssured.given().baseUri(baseurl);
-		Response response = httpRequest.request(Method.DELETE,"/delete?id=5de38fcc235442524e0823bd");
+		Response response = httpRequest.request(Method.DELETE,"/delete?id=5def7f66d1a0325734d61896");
 		int code = response.getStatusCode();
 		assertEquals(code,200);	
 		

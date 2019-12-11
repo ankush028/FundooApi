@@ -86,8 +86,7 @@ public class Serviceimpli implements Services{
 			return new Response(200,environment.getProperty("Email_Exist"),HttpStatus.OK);
 		}
 			User user =Model.getModel().map(regdto, User.class);
-			String encodedPassword = encodePassword.encoder().encode((regdto.getPassword()));
-			user.setPassword(encodedPassword);//set encrypted password to the data bases
+			user.setPassword( encodePassword.encoder().encode((regdto.getPassword())));//set encrypted password to the data bases
 			userRepo.save(user);
 			logger.info( environment.getProperty("Add"));
 			String generatedToken=usertoken.createToken(user.getEmail());			
@@ -152,7 +151,7 @@ public class Serviceimpli implements Services{
 		User user = userRepo.findByEmail(logindto.getEmail());	
 		if(user==null) {
 
-			throw new IllegalArgumentException("User");
+			throw new IllegalArgumentException("UserNoteFound");
 		}
 			if(user.isIsvalidate()&& user.getEmail().equals(logindto.getEmail())&&	
 					encodePassword.encoder().matches(logindto.getPassword(),user.getPassword())) {				

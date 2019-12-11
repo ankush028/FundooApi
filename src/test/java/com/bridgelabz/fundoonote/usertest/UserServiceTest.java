@@ -80,11 +80,9 @@ class UserServiceTest {
 	User user1 = new User("Ankit", id, email,password,confirmPassword, false, "abcfs312def.jpg");
 	List<User> list= new ArrayList<>();
 	Optional<User> optuser = Optional.of(user);
-	// = new RegisterDto("Ankush", email,password,confirmPassword);
 	RabbitMq model = new RabbitMq(email,"edlahdiguqhegq","bakjfiuahhaiuhw");
 	String pass = "dshfkjsdhiahg";
-	String noteId ="4321cba";
-	String lblid = "1234abc";
+
 	/**
 	 * @purpose Written Junit test for checking Note has deleted  by id sucessfully
 	 */
@@ -128,7 +126,7 @@ class UserServiceTest {
 	
 	/**
 	 * @purpose written Junit Test to Test details update of user
-	 * @status 200 Passed Otherwise Faild
+	 * @status 200 Passed Otherwise Fail
 	 */
 	@Test
 	public void updateUserTest() {
@@ -137,24 +135,6 @@ class UserServiceTest {
 		when(userRepository.save(user)).thenReturn(user);
 		Response response = services.update(dto, id);
 		assertEquals(200,response.getStatus());		
-	}
-	@Test
-	public void addUser() {
-		dto.setPassword(password);
-		dto.setConfirmPassword(confirmPassword);
-		when(dto.getPassword()).thenReturn(password);
-		when(dto.getConfirmPassword()).thenReturn(confirmPassword);
-		when(userRepository.findByEmail(email)).thenReturn(user);
-		when(Model.getModel().map(dto,User.class)).thenReturn(user);	
-		when(encodePassword.encode(password)).thenReturn(anyString());	
-		doThrow().when(new ModelMapper());
-		user.setPassword(pass);
-		when(userRepository.save(user)).thenReturn(user);		
-		when(env.getProperty("Add")).thenReturn(anyString());
-		Response response= services.addUser(dto);
-		System.out.println("Hello");
-		assertEquals(200,response.getStatus());
-		
 	}
 
 }
