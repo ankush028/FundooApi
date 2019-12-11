@@ -540,3 +540,32 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2019-12-11 18:32:46.743  INFO 7887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 2019-12-11 18:32:46.746  INFO 7887 --- [restartedMain] c.b.fundoonote.FundooNoteApplication     : Started FundooNoteApplication in 1.283 seconds (JVM running for 10312.542)
 2019-12-11 18:32:46.749  INFO 7887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2019-12-11 18:38:05.022  INFO 7887 --- [Thread-85] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2019-12-11 18:38:05.789  INFO 7887 --- [restartedMain] c.b.fundoonote.FundooNoteApplication     : Starting FundooNoteApplication on admin1-LIVA-Z2V with PID 7887 (/home/admin1/Desktop/SpringWorkSpace/FundooNote/target/classes started by admin1 in /home/admin1/Desktop/SpringWorkSpace/FundooNote)
+2019-12-11 18:38:05.796  INFO 7887 --- [restartedMain] c.b.fundoonote.FundooNoteApplication     : No active profile set, falling back to default profiles: default
+2019-12-11 18:38:06.511  INFO 7887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-12-11 18:38:06.528  INFO 7887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16ms. Found 3 repository interfaces.
+2019-12-11 18:38:06.652  WARN 7887 --- [restartedMain] org.apache.tomcat.util.modeler.Registry  : The MBean registry cannot be disabled because it has already been initialised
+2019-12-11 18:38:06.702  INFO 7887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-12-11 18:38:06.703  INFO 7887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-12-11 18:38:06.703  INFO 7887 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2019-12-11 18:38:06.711  INFO 7887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-12-11 18:38:06.711  INFO 7887 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 913 ms
+2019-12-11 18:38:06.745  INFO 7887 --- [restartedMain] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=MULTIPLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2019-12-11 18:38:06.746  INFO 7887 --- [restartedMain] org.mongodb.driver.cluster               : Adding discovered server localhost:27017 to client view of cluster
+2019-12-11 18:38:06.767  WARN 7887 --- [restartedMain] o.s.data.convert.CustomConversions       : Registering converter from class java.time.LocalDateTime to class java.time.Instant as reading converter although it doesn't convert from a store-supported type! You might wanna check you annotation setup at the converter implementation.
+2019-12-11 18:38:06.776  INFO 7887 --- [cluster-ClusterId{value='5df0ea36a5d989660bfa8961', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:18, serverValue:19}] to localhost:27017
+2019-12-11 18:38:06.778  INFO 7887 --- [cluster-ClusterId{value='5df0ea36a5d989660bfa8961', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 3]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=255666}
+2019-12-11 18:38:06.778  WARN 7887 --- [restartedMain] o.s.data.convert.CustomConversions       : Registering converter from class java.time.Instant to class java.time.LocalDateTime as reading converter although it doesn't convert from a store-supported type! You might wanna check you annotation setup at the converter implementation.
+2019-12-11 18:38:06.788  INFO 7887 --- [cluster-ClusterId{value='5df0ea36a5d989660bfa8961', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Discovered cluster type of STANDALONE
+2019-12-11 18:38:06.790  WARN 7887 --- [restartedMain] o.s.data.convert.CustomConversions       : Registering converter from class java.time.LocalDateTime to class java.time.Instant as reading converter although it doesn't convert from a store-supported type! You might wanna check you annotation setup at the converter implementation.
+2019-12-11 18:38:06.790  WARN 7887 --- [restartedMain] o.s.data.convert.CustomConversions       : Registering converter from class java.time.Instant to class java.time.LocalDateTime as reading converter although it doesn't convert from a store-supported type! You might wanna check you annotation setup at the converter implementation.
+2019-12-11 18:38:06.835  INFO 7887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2019-12-11 18:38:07.096  INFO 7887 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-12-11 18:38:07.194  INFO 7887 --- [restartedMain] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2019-12-11 18:38:07.201  INFO 7887 --- [restartedMain] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2019-12-11 18:38:07.205  INFO 7887 --- [restartedMain] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2019-12-11 18:38:07.264  INFO 7887 --- [restartedMain] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: addNoteUsingPOST_1
+2019-12-11 18:38:07.471  INFO 7887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-12-11 18:38:07.472  INFO 7887 --- [restartedMain] c.b.fundoonote.FundooNoteApplication     : Started FundooNoteApplication in 1.852 seconds (JVM running for 10633.268)
+2019-12-11 18:38:07.474  INFO 7887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged

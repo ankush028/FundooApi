@@ -66,7 +66,7 @@ public class Serviceimpli implements Services{
 
 	
 	static Logger logger =	Logger.getLogger(Serviceimpli.class.getName());
-
+	private String userExcepKey = "userException";
 	/**
 	 * @param Register dto
 	 * @return Response body
@@ -135,7 +135,7 @@ public class Serviceimpli implements Services{
 		
 		Optional<User> userUpdate = userRepo.findById(id);
 		if(!userUpdate.isPresent()) {
-			throw new Exceptions(environment.getProperty("userException"));
+			throw new Exceptions(environment.getProperty(userExcepKey));
 		}
 		userUpdate.get().setName(regdto.getName());
 		userRepo.save(userUpdate.get());
@@ -151,7 +151,7 @@ public class Serviceimpli implements Services{
 		User user = userRepo.findByEmail(logindto.getEmail());	
 		if(user==null) {
 
-			throw new IllegalArgumentException("UserNoteFound");
+			throw new IllegalArgumentException(environment.getProperty(userExcepKey));
 		}
 			if(user.isIsvalidate()&& user.getEmail().equals(logindto.getEmail())&&	
 					encodePassword.encoder().matches(logindto.getPassword(),user.getPassword())) {				
@@ -169,7 +169,7 @@ public class Serviceimpli implements Services{
 	public Response findByEmail(String email) {
 		User user =userRepo.findByEmail(email);
 		if(user==null) {
-			throw new Exceptions(environment.getProperty("userException"));
+			throw new Exceptions(environment.getProperty(userExcepKey));
 		}
 		return new Response(200,environment.getProperty("Find"),user);
 	}
@@ -205,7 +205,7 @@ public class Serviceimpli implements Services{
 			
 			Optional<User> userForset = userRepo.findAll().stream().filter(i->i.getEmail().equals(email)).findAny();
 			if(!userForset.isPresent()) {
-				throw new Exceptions(environment.getProperty("userException"));
+				throw new Exceptions(environment.getProperty(userExcepKey));
 			}
 			userForset.get().setPassword(encodePassword.encoder().encode(user.getPassword()));
 			userForset.get().setConfirmPassword(user.getConfirmPassword());
@@ -249,7 +249,7 @@ public class Serviceimpli implements Services{
 		User user = userRepo.findByEmail(email);
 
 		if(file.isEmpty() && user==null) {
-			throw new Exceptions(environment.getProperty("userException"));
+			throw new Exceptions(environment.getProperty(userExcepKey));
 		}	
 			byte[] bytes = file.getBytes();				
 			String extension =file.getContentType().replace("image/","");		
@@ -271,7 +271,7 @@ public class Serviceimpli implements Services{
 		String email = usertoken.getUserToken(token);
 		User user = userRepo.findByEmail(email);
 		if(user==null) {
-			throw new Exceptions(environment.getProperty("userException"));
+			throw new Exceptions(environment.getProperty(userExcepKey));
 		}
 		user.setProfile(null);
 		userRepo.save(user);
