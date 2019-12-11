@@ -60,12 +60,15 @@ public class NoteServiceImpli implements NoteServices{
 	@Autowired
 	LabelRepository labelRepo;
 	
+	private String userExcepKey = "userException";
+	private String noteExcepKey = "noteException";
+	
 	@Override
 	public Response addNote(NoteDto notedto, String token) {
 		String email= noteJwt.getUserToken(token);
 		User user = userRepo.findByEmail(email);
 		if(user==null) {
-			throw new Exceptions(environment.getProperty("userException"));
+			throw new Exceptions(environment.getProperty(userExcepKey));
 		}
 			Note note = Model.getModel().map(notedto,Note.class);
 			note.setCreatedDate(LocalDate.now());
@@ -187,7 +190,7 @@ public class NoteServiceImpli implements NoteServices{
 		Note note = isNote(token,noteId);
 		boolean status = note.getListOfcollobarator().contains(collabemail);
 		if(user==null) {
-			throw new Exceptions(environment.getProperty("userException"));
+			throw new Exceptions(environment.getProperty(userExcepKey));
 		}
 		if(status) {
 			return new Response(200,environment.getProperty("already"),HttpStatus.OK);
@@ -223,7 +226,7 @@ public class NoteServiceImpli implements NoteServices{
 			return new Response(200,environment.getProperty("Sucess"),HttpStatus.OK);
 		
 		}
-		throw new Exceptions(environment.getProperty("noteException"));
+		throw new Exceptions(environment.getProperty(noteExcepKey));
 	}
 
 	@Override
@@ -260,7 +263,7 @@ public class NoteServiceImpli implements NoteServices{
 		List<Note> notes= noteRepo.findByEmail(email);
 		Optional<Note> note = notes.stream().filter(i->i.getId().equals(noteId)).findAny();
 		if(!note.isPresent()) {
-			throw new Exceptions("NoteNotFoundException");
+			throw new Exceptions(environment.getProperty(noteExcepKey));
 		}
 			note.get().setReminder(new Utility(date).dateFormat());
 		noteRepo.save(note.get());
@@ -276,7 +279,7 @@ public class NoteServiceImpli implements NoteServices{
 		List<Note> notes = noteRepo.findByEmail(email);
 		Optional<Note> note = notes.stream().filter(i->i.getId().equals(id)).findAny();
 		if(!note.isPresent()) {	
-			throw new Exceptions(environment.getProperty("noteException"));
+			throw new Exceptions(environment.getProperty(noteExcepKey));
 		}
 		return note.get();
 		

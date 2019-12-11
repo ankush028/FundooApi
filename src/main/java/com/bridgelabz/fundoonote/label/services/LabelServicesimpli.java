@@ -58,7 +58,7 @@ public class LabelServicesimpli implements LabelServices{
 	 *@purpose METHOD ADD NEW LABEL
 	 *@return Response 
 	 */
-
+	private String exceptionkey ="labelException";
 	@Override
 	public Response addLabel(LabelDto labeldto, String token) {
 
@@ -89,7 +89,7 @@ public class LabelServicesimpli implements LabelServices{
 
 		Optional<Label> label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny();
 		if(!label.isPresent()) {	
-		throw new Exceptions(environment.getProperty("labelException"));
+		throw new Exceptions(environment.getProperty(exceptionkey));
 	}
 		labelRepo.delete(label.get());
 		return new Response(200,environment.getProperty("delete_label"),HttpStatus.OK);
@@ -107,7 +107,7 @@ public class LabelServicesimpli implements LabelServices{
 		List<Label> listOflabel =  labelRepo.findByEmail(email);
 		Optional<Label> label = listOflabel.stream().filter(i->i.getLabelid().equals(id)).findAny();
 		if(!label.isPresent()) { 
-		throw new Exceptions(environment.getProperty("labelException"));
+		throw new Exceptions(environment.getProperty(exceptionkey));
 		}
 
 		label.get().setUpdatedDate(LocalDate.now());		
@@ -163,7 +163,7 @@ public class LabelServicesimpli implements LabelServices{
 			throw new Exceptions(environment.getProperty("noteException"));
 		}
 		if(!label.isPresent()) {
-			throw new Exceptions(environment.getProperty("labelException"));
+			throw new Exceptions(environment.getProperty(exceptionkey));
 		}
 		label.get().getListOfNote().add(note.get());
 		labelRepo.save(label.get());
