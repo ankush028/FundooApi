@@ -63,7 +63,7 @@ public class Serviceimpli implements Services{
 	
 	@Autowired
 	Environment environment;
-	
+
 	
 	static Logger logger =	Logger.getLogger(Serviceimpli.class.getName());
 
