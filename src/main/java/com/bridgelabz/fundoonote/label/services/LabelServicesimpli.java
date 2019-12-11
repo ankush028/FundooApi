@@ -159,6 +159,12 @@ public class LabelServicesimpli implements LabelServices{
 		List<Label> listOfLabel = labelRepo.findByEmail(email);
 		Optional<Note> note = listOfNote.stream().filter(i->i.getId().equals(noteid)).findAny();
 		Optional<Label> label = listOfLabel.stream().filter(i->i.getLabelid().equals(lblid)).findAny();
+		if(!note.isPresent()) { 
+			throw new Exceptions(environment.getProperty("noteException"));
+		}
+		if(!label.isPresent()) {
+			throw new Exceptions(environment.getProperty("labelException"));
+		}
 		label.get().getListOfNote().add(note.get());
 		labelRepo.save(label.get());
 		
