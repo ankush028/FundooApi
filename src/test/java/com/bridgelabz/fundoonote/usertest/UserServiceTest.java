@@ -15,15 +15,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.bridgelabz.fundoonote.config.Model;
 import com.bridgelabz.fundoonote.dto.RegisterDto;
 import com.bridgelabz.fundoonote.model.RabbitMq;
 import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
 import com.bridgelabz.fundoonote.services.Serviceimpli;
-import com.bridgelabz.fundoonote.utility.Jms;
+//import com.bridgelabz.fundoonote.utility.Jms;
 import com.bridgelabz.fundoonote.utility.Jwt;
 
 @RunWith(SpringRunner.class)
@@ -63,8 +61,8 @@ class UserServiceTest {
 	@Mock
 	Jwt jwt;
 	
-	@Mock
-	Jms jms;
+//	@Mock
+//	Jms jms;
 	
 	@Mock
 	RegisterDto dto;
@@ -123,7 +121,7 @@ class UserServiceTest {
 		List<User> listOfUser =services.getAllUser();
 		assertEquals("Ankush",listOfUser.get(0).getName());		
 	}
-	
+	//kjhfjkshfius
 	/**
 	 * @purpose written Junit Test to Test details update of user
 	 * @status 200 Passed Otherwise Fail

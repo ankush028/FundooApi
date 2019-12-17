@@ -12,7 +12,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -29,10 +32,11 @@ import com.bridgelabz.fundoonote.model.RabbitMq;
 import com.bridgelabz.fundoonote.model.User;
 import com.bridgelabz.fundoonote.repository.UserRepository;
 import com.bridgelabz.fundoonote.response.Response;
-import com.bridgelabz.fundoonote.utility.Jms;
 import com.bridgelabz.fundoonote.utility.Jwt;
+import com.bridgelabz.fundoonote.utility.Utility;
 @PropertySource("classpath:messages.properties")
 @Service
+@CacheConfig(cacheNames = "user")
 public class Serviceimpli implements Services{
 	
 	/**
@@ -55,14 +59,12 @@ public class Serviceimpli implements Services{
 	 */
 	@Autowired
 	 Jwt usertoken;
-	/**
-	 * @see com.bridgelabz.fundoonote.Utility
-	 */
-	@Autowired
-	Jms jms;
 	
 	@Autowired
 	Environment environment;
+	
+	@Autowired
+	private RabbitTemplate template;
 
 	
 	static Logger logger =	Logger.getLogger(Serviceimpli.class.getName());
@@ -88,12 +90,12 @@ public class Serviceimpli implements Services{
 			User user =Model.getModel().map(regdto, User.class);
 			user.setPassword( encodePassword.encoder().encode((regdto.getPassword())));//set encrypted password to the data bases
 			userRepo.save(user);
-			logger.info( environment.getProperty("Add"));
-			String generatedToken=usertoken.createToken(user.getEmail());			
-			RabbitMq rmodel = new RabbitMq(
-			regdto.getEmail(),environment.getProperty("url")+generatedToken,environment.getProperty("subject"));				
-			jms.sendMail(rmodel);	
-		
+			String generatedToken=usertoken.createToken(user.getEmail());		
+			//logger.info( environment.getProperty("Add"));
+			
+			RabbitMq body=Utility.getRabbitMq(regdto.getEmail(),environment.getProperty("url")+generatedToken);
+			template.convertAndSend("userMessageQueue" ,body);
+			
 			return new Response(200,environment.getProperty("Add"),HttpStatus.OK);
 	}	
 
@@ -146,6 +148,8 @@ public class Serviceimpli implements Services{
 	 *@param login dto
 	 *@return Response body
 	 */
+	@Override
+	@Cacheable(key = "#token")
 	public Response login(LoginDto logindto) {
 		
 		User user = userRepo.findByEmail(logindto.getEmail());	
@@ -227,9 +231,11 @@ public class Serviceimpli implements Services{
 			{
 			return new Response(200,environment.getProperty("User_Not_Found"),HttpStatus.OK);
 		}
-		String generatedToken=usertoken.createToken(email);
-		RabbitMq model = new RabbitMq(email, environment.getProperty("reset")+generatedToken,environment.getProperty("subject"));		
-		jms.sendMail(model);
+		String generatedToken=usertoken.createToken(email);		
+		//logger.info( environment.getProperty("Add"));
+		
+		RabbitMq body=Utility.getRabbitMq(email,environment.getProperty("url")+generatedToken);
+		template.convertAndSend("userMessageQueue" ,body);
 		return new Response(200,environment.getProperty("validation_link"),HttpStatus.OK);
 		
 	}

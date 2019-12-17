@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,9 +29,8 @@ import com.bridgelabz.fundoonote.utility.Utility;
  * @author Ankush Kumar Agrawal
  *@Date 20 Nov 2019
  */
-
-//@PropertySource("classpath:messages.properties")
 @Service
+@CacheConfig(cacheNames = "note")
 public class NoteServiceImpli implements NoteServices{
 	
 	/**
@@ -64,6 +66,7 @@ public class NoteServiceImpli implements NoteServices{
 	private String noteExcepKey = "noteException";
 	
 	@Override
+	@Cacheable(key = "#token")
 	public Response addNote(NoteDto notedto, String token) {
 		String email= noteJwt.getUserToken(token);
 		User user = userRepo.findByEmail(email);
@@ -84,6 +87,7 @@ public class NoteServiceImpli implements NoteServices{
 	 *@return a simple Message
 	 */
 	@Override
+	@CacheEvict(key ="#token")
 	public Response deleteNote(String token, String id) {
 		
 		Note note = isNote(token,id);
@@ -97,7 +101,9 @@ public class NoteServiceImpli implements NoteServices{
 	 *@param token
 	 *@return a simple Message
 	 */
+	
 	@Override
+	@Cacheable(key = "#token")
 	public Response updateNote(String id,NoteDto notedto, String token) {
 	
 		Note note = isNote(token,id);
@@ -274,6 +280,7 @@ public class NoteServiceImpli implements NoteServices{
 	 *
 	 */
 	@Override
+	@Cacheable(key = "#token")
 	public Note isNote(String token,String id) {
 		String email = noteJwt.getUserToken(token);
 		List<Note> notes = noteRepo.findByEmail(email);
