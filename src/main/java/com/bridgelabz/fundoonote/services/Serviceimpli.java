@@ -14,8 +14,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -36,7 +34,7 @@ import com.bridgelabz.fundoonote.utility.Jwt;
 import com.bridgelabz.fundoonote.utility.Utility;
 @PropertySource("classpath:messages.properties")
 @Service
-@CacheConfig(cacheNames = "user")
+//@CacheConfig(cacheNames = "user")
 public class Serviceimpli implements Services{
 	
 	/**
@@ -149,7 +147,7 @@ public class Serviceimpli implements Services{
 	 *@return Response body
 	 */
 	@Override
-	@Cacheable(key = "#token")
+	//@Cacheable(key = "#token")
 	public Response login(LoginDto logindto) {
 		
 		User user = userRepo.findByEmail(logindto.getEmail());	
